@@ -1,0 +1,5 @@
+echo "$1" | sed -e 's/#/→/g'
+clean=$(echo "$1" | sed -e 's/ + / /g' -e 's/ -# / /g' -e 's/.\*//g')
+echo $clean
+numbers=$(for a in $clean; do printf "%.3f\n" $(ch $a); done)
+echo $numbers

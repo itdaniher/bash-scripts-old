@@ -1,0 +1,7 @@
+STATUS=$(date +%a\ %m.%d.%y\ %H:%M)
+STATUS="$STATUS :: $(battery-status)"
+xsetroot -name "$STATUS"
+sleep 2
+STATUS=$(cat ~/.wifi.stat)
+xsetroot -name "$STATUS"
+sleep 2

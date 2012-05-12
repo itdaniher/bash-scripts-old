@@ -1,0 +1,1 @@
+cat foo.xml |xml sel -T -t -m "///rss/channel/item" -v ./title -n -v ./duration -n -v ./summary -n -v ./enclosure/@url -n -n

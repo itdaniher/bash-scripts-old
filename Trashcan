@@ -1,0 +1,8 @@
+TRSH=~/.local/share/Trash
+if [ -d $TRSH ]
+then
+	mv "$*" $TRSH
+else
+	mkdir $TRSH
+	$0 "$*" 
+fi

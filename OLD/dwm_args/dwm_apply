@@ -1,0 +1,8 @@
+FILE=$1
+for VAR in $(cat $FILE | awk -F'=' '{print $1}')
+do
+	EXP=$(grep $VAR $FILE | awk -F'=' '{print $2}')
+	MER="$MER -e 's/$VAR/$EXP/'"
+done
+CMD="sed$MER config.def.h"
+exec-string $CMD

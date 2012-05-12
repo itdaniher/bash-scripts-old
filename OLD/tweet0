@@ -1,0 +1,39 @@
+#!/bin/bash
+# a twitter client (uses .netrc for auth)
+
+[ "$1" == "-h" ] && {
+ echo " use: $(basename $0) -h | [ tweet ]"
+ echo "      -h help"
+ echo "      no arguments gets latest updates"
+ exit
+}
+
+function friends {
+ curl --connect-timeout 5 -s -n $1 | awk '
+  { sub(/^[^>]*>/,"",$0) }
+  /text/ { 
+   sub(/<[^<]*>$/,"",$0)
+   m=$0
+  }
+  /relative/ { 
+   sub(/<[^<]*>$/,"",$0)
+   at=$0
+  }
+  /_name/ { 
+   sub(/<[^<]*>$/,"",$0)
+   print $0 " : " m " [" at "]"
+  }
+'
+}
+
+function update {
+ curl -s -n -d "status=$msg" $1 &>/dev/null || echo "tweet broke"
+}
+
+if [ -t 0 ]; then msg="$*"; else msg="$(cat -)"; fi
+
+if [ "$msg" ];then
+ update http://twitter.com/statuses/update.xml
+else
+ friends http://twitter.com/statuses/friends_timeline.xml
+fi

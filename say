@@ -1,0 +1,24 @@
+#Crystal: US English
+#Mike: US English
+#Rich: US English
+#Lauren: US English
+#Claire: US English
+#Rosa: Latin Am Spanish
+#Alberto: Latin Am Spanish
+#Klara: German
+#Reiner: German
+#Alain: French
+#Juliette: French
+#Arnaud: CA French
+#Charles: UK English
+#Audrey: UK English
+#Anjali: IN English
+voice=Crystal
+s=$*
+addr=$(curl -s \
+-d voice=$voice \
+-d txt=${s// /+} \
+-d speakButton=SPEAK \
+http://192.20.225.55/tts/cgi-bin/nph-talk | xml sel -t -v //HTML/BODY/A/@HREF)
+URL="http://192.20.225.55$addr"
+mplayer -really-quiet $URL&> /dev/null&

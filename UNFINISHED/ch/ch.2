@@ -1,0 +1,28 @@
+#! /bin/bash
+
+# Change these too!
+PREFIX=$PWD
+CH2=$PREFIX/ch.2
+
+form=""
+while [ "$1" != "" ]
+do
+    if echo $1 | grep -P '\(|\)' > /dev/null
+    then
+	subform=$($CH2 $(echo $1 | sed -r 's/\(|\)//g'))
+	times=$2
+	i=0
+	while [ $i -lt $times ]
+	do
+	    form=$(echo $form $subform)
+	    i=$(($i+1))
+	done
+	shift
+    else
+	current=$(echo $1 | sed -r -e 's/[[:upper:]][[:lower:]]{0,2}/& /g' -e 's/[[:digit:]]+/& /g')
+	form=$(echo $form $current)
+    fi
+    shift
+done
+form=$(echo $form | sed -r 's/[[:blank:]]+/ /g')
+echo $form

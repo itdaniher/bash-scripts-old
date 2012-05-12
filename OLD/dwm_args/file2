@@ -1,0 +1,9 @@
+FILE=$1
+CONF=$(cat $FILE | grep 'static const char' | head -n 7 | sed -e 's/static const char //g' -e 's/ //g' -e 's/;//g' -e 's/	//g' -e 's/"//g')
+echo $CONF | sed -e 's/*font/fn/' -e 's/*normbordercolor/nd/' -e 's/*selbordercolor/sd/'\
+ -e 's/*normbgcolor/nb/' -e 's/*selbgcolor/sb/' -e 's/*normfgcolor/nf/'\
+ -e 's/*selfgcolor/sf/' -e 's/ /\n/g' > $2
+#nd + sd determine window border
+#nb + sb determine colors for 'tab' and 'background
+#nf + sf determine text colors for 'tab' and 'background
+

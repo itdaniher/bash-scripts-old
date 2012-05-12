@@ -1,0 +1,22 @@
+APIKEY="14174215b996e263efb6a6d2cfe07bb0156fd42a"
+
+xml=$(curl -s \
+-F version=1.0 \
+-F api_key=$APIKEY \
+http://api.drop.io/drops)
+DROPNAME=$(echo $xml | xml sel -t -v //drop/name)
+TOKEN=$(echo $xml | xml sel -t -v //drop/admin_token)
+
+for f in "$@"
+do
+	cd `dirname "$f"`
+	FILE=`basename "$f"`
+	xml_response=$(curl -s \
+-F version=1.0 \
+-F token=$TOKEN \
+-F api_key=$APIKEY \
+-F drop_name=$DROPNAME \
+-F "file=@$FILE" http://assets.drop.io/upload)
+	echo "File name $(echo $xml_response | xml sel -t -v //asset/name), a $(echo $xml_response | xml sel -t -v //asset/type), was successfully uploaded at $(echo $xml_response | xml sel -t -v //asset/created_at)." 
+	echo "You can upload other files to http://drop.io/$DROPNAME via $(echo $xml_response | xml sel -t -v //asset/hidden_url)" 
+done

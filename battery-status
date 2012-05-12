@@ -1,0 +1,4 @@
+#!/bin/sh
+echo `hal-device | grep charge_level.percentage | awk '{print $3}'`%
+#echo "`(cat /sys/class/power_supply/olpc-battery/capacity)`%"
+#See LICENSE file for copyright and license details

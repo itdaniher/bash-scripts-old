@@ -1,0 +1,826 @@
+API KEY : 14174215b996e263efb6a6d2cfe07bb0156fd42a
+
+Full API Documentation                                                        
+
+
+Introduction
+
+This documentation will provide you with an overview of the RESTful style API
+that Drop.io has released to the public. Included in this documentation are
+access to the resources and services that we provide on our normal website.
+Sift through the documentation and let us know if there's any other
+information that you could need.
+
+ 
+
+What is Drop.io?
+
+Drop.io is the simplest place to share files online. Privately share what you
+want, how you want, with who you want... Our main goal is to provide the most
+streamline, stress free ways to push digital content around on the web. There
+are no accounts and files are easily converted (if we can) to a web friendly
+format, so no extra software to install and convenient access to files any
+time you want.
+
+For more information, check out our About page.
+
+Summary
+
+Our API aims to be incredibly simple and private, just like our website. In
+order for that to happen, we have taken the RESTful style approach to access
+our resources. Each drop and asset has a unique URL associated to it in which
+you can receive the content in XML or JSON format. For privacy and security
+purposes, each request will have an API key sent in as a parameter (described
+below) and for drops that have authentication mechanisms (both guest and
+admin), tokens or passwords should be sent in (described below as well). Each
+request will need to be URL encoded and we accept UTF-8 encodings only.
+
+API Accounts
+
+In order to access our API, you will need to signup for a new Drop.io API
+account. This will give you an API key that you'll use with every request to
+the Drop.io API. It is very important to sign up for an API account as each
+request will be rejected unless you supply an API key parameter (described
+below).
+
+ 
+
+You can request a new API account here: http://api.drop.io/api_accounts
+
+Rate Limits
+
+At launch, API accounts will be restricted to a maximum number of requests per
+minute. Currently the limit is projected to be 250 requests every 15 minutes,
+however this is not finalized yet. Api account holders who have larger
+production needs should contact us to have their rate limit increased. Our aim
+is for each brand new API account to be able to accommodate up to 10,000 users
+per day with a reasonable use pattern without contacting drop.io for an
+increase.
+
+NB: The drop.io API rate limiting policy is being revised. You may experience
+lower throughput than described here while we are in pre-launch state. Please
+check back to this section at launch time for the final word. 
+
+Authentication & Authorization
+
+There are two mechanisms that work together to ensure that a request that is
+made from a 3rd party application to Drop.io actually comes from a user. Each
+drop has two means of identification: a password and a token. Whether the user
+is a normal authenticated guest or an admin, these tokens can be used to
+authenticate the person through the API.
+
+ 
+
+API Key - An API Key (discussed above) will be required for every request and
+allows Drop.io to determine if the application is a legitimate application. If
+we find that an application is abusing user data or compromising the security
+of Drop.io users, we can shut off their access to the site and every 3rd party
+application related to the suspect API key will then be disabled; thus
+protecting user data.
+
+
+Authorization Token - When a Drop has been created from the API with an admin
+and guest password, a guest_token and admin_token will be returned with the
+Drop resource (described below) that will have to be used with requests for
+those resources. The guest or admin password can also be sent in with each
+request, posing as the authorization token. Using the tokens allows 3rd party
+applications to authenticate a user without requiring the user to enter in a
+password into the application, in which it could be saved, copied, or stored
+without the guest's knowledge.  The token will also be available on the drop
+through http://drop.io for drops created outside of the API. The user would
+then enter that into the 3rd party application. In a situation where the user
+does not have access to the token to enter it into the 3rd party application,
+the user's password can be used. This is the least favorite method and should
+be avoided.
+
+API Requests
+
+With access to resources in a RESTful manor, API requests are quite simple.
+Each resource will have a URL in which you can GET, POST, PUT, and DELETE to
+describing each action. And required parameters will be described below.
+
+ 
+
+All API requests will go to http://api.drop.io/
+
+Response Formats
+
+Requests can include a format parameter (or a format extension .xml or .json)
+for each request. In return, you will get the error message or resource
+formatted as requested. Currently we support XML and JSON. RSS is included on
+the drop.io website.
+
+
+Examples:
+
+http://api.drop.io/drops/example_drop/assets.xml
+
+http://api.drop.io/drops/example_drop/assets.json
+
+http://api.drop.io/drops/example_drop/assets?format=xml 
+
+
+You can see example resource responses in this document.
+
+Specifying API Version
+
+Requests can include a version parameter to provide backwards compatibility
+when new versions of the API are released in the future. The launch version of
+the api will have version = 1.0. This parameter will become required soon;
+existing clients should be modified to include it. 
+
+
+Example:
+
+http://api.drop.io/drop/example_drop/assets?version=1.0
+
+ 
+
+HTTP Status Codes
+
+HTTP Status codes are used to signal the state of a request made to the API.
+Here's a short list of common HTTP Codes used and what they mean:
+
+  • 200 OK:  Things are all good with your request. Most of the time you will
+    receive the resource back.
+  • 400 Bad Request: Something is wrong with the request in general, missing
+    parameters, bad data, etc. You will get an Error Message body back
+    (described below).
+  • 403 Forbidden: You did not supply a valid API token or an authorization
+    token. You will get an Error Message body back.
+  • 404 Not Found: The resource requested is not found or not available. You
+    will get an Error Message body back.
+  • 500 Internal Server Error: Something that we did not account for has gone
+    wrong, please use the Discussions area to get help or contact us via our
+    Help page.
+
+Error Messages 
+
+For 400 and 500 level HTTP Status Codes, we'll return a formatted error
+message containing a user friendly report of what happened. The formats are
+listed below of example error messages.
+
+
+In XML:
+
+ 
+
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+  <action>show</action>
+  <message>The api_key is invalid.</message>
+  <result>Failure</result>
+</response>
+
+
+In JSON:
+
+
+{"response":{"action":"show","message":"The api_key is
+invalid.","result":"Failure"}}
+
+Resources
+
+Drops and files are all accessible via RESTful URLs and meaningful HTTP
+Request methods. Below are descriptions of available resources (with URLs) and
+required HTTP methods. Required parameters are in bold and descriptions of
+returned values are included.
+
+
+Resource locations (URLs) will have identifying information in their URL. In
+the descriptions below, the URL references starting with a colon like
+:drop_name, :asset_name, :comment_id, are values that are well known and
+returned with each Resource. You should replace these URL references with
+their real values.
+
+
+Also don't forget about the formatting of resources (described above). You can
+add a format parameter or tag a (.xml or .json) to the end of each URL to get
+a formatted response.
+
+Drop Resource
+
+Create a drop
+
+When creating a drop, every parameter (aside from API key) is optional. You
+will get back a default drop with a random name and default settings (unless
+you provide the optional parameters). In response, you will get the guest and
+admin tokens that act as authorization tokens for authentication.
+
+URL: http://api.drop.io/drops
+
+Method: POST
+
+Parameters:
+
+  • version
+      □ required string
+  • api_key
+      □ required string
+  • format
+      □ optional string
+      □ possible values: xml, json
+  • name
+      □ optional string
+      □ This is the name of the drop and will become part of the URL of the
+        drop.
+      □ Valid characters are alphanumeric and the underscore "_" ( a-z A-Z 0-9
+        and _ )
+  • guests_can_comment
+      □ optional boolean, default true
+      □ Determines whether guests can comment on assets
+  • guests_can_add
+      □ optional boolean, default true
+      □ Determines whether guests can add assets
+      □ NOTE: setting guests_can_add to true forces guests_can_comment to be
+        true as well. This is a known issue which we are working to address.
+  • guests_can_delete
+      □ optional boolean, default true
+      □ Determines whether guests can delete assets
+
+  • expiration_length
+      □ optional string
+      □ possible values: 1_DAY_FROM_NOW, 1_WEEK_FROM_NOW, 1_MONTH_FROM_NOW,
+        1_YEAR_FROM_NOW, 1_DAY_FROM_LAST_VIEW, 1_WEEK_FROM_LAST_VIEW,
+        1_MONTH_FROM_LAST_VIEW, 1_YEAR_FROM_LAST_VIEW
+      □ Determines the expiration length of the drop.
+  • password
+      □ optional string
+      □ This is the guest password for the drop.
+  • admin_password
+      □ optional string
+      □ This is the administrative password for the drop.
+  • premium_code
+      □ optional string
+      □ Used to upgrade drops to premium drops.
+
+ 
+
+Get a drop
+
+When getting a drop, you will be returned a simplified version of the Drop in
+the format of your choice. Depending on the token provided and drop
+permissions, you may or may not receive certain details. For example, Drops
+that are created with a View Only setting, you will not receive the voicemail,
+fax, or email address values as they only pertain to users adding files.
+
+URL: http://api.drop.io/drops/:drop_name
+
+Method: GET
+
+Parameters:
+
+  • version
+      □ required string
+  • api_key
+      □ required string
+  • format
+      □ optional string
+      □ possible values: xml, json
+  • token
+      □ optional string
+      □ Used to authenticate a guest or admin. Can be the token returned from
+        the API or the guest/admin password. Required for drops that have
+        them. Otherwise it's not.
+
+Redirect to drop.io
+
+If there's a need to authenticate a web session on drop.io, example: when
+forwarding a person from your 3rd party system to Drop.io, this method will
+cause a session to be started and authentication to take place behind the
+scenes, relative to the signature in place. Depending on how the signature is
+constructed, the drop will log in appropriately for a guest or an admin.
+
+URL: http://drop.io/:drop_name/from_api
+
+Method: GET
+
+Parameters:
+
+  • version
+      □ required string
+  • signature
+      □ required string
+      □ A specially formatted string that carries specific information with it
+        so we can authorize the request.
+      □ Generate a UTC Unix timestamp for expiration of this signature (no
+        longer than 15 minutes in advance of the request)
+      □ Combine the timestamp, token (Guest or Admin), Drop name (in that
+        particular order)... delimited by a "+" character.
+      □ The signature will be an SHA1 digest of the combined string from the
+        previous step and convert it to a HEX string.
+      □ Example: SHA1(1225455336+myGeneratedAppToken+myDropName) =
+        e4cda3527aee35a9917cb1d3a1dce720dffb00e5
+  • expires
+      □ required string
+      □ Unix timestamp format - http://en.wikipedia.org/wiki/Unix_time
+      □ UTC - http://en.wikipedia.org/wiki/Coordinated_Universal_Time
+      □ Ensure it's the same exact value as the one used to generate the
+        signature.
+
+Update a drop
+
+When updating a drop, the parameters are optional and the token passed in for
+authentication must be the administrator token or password.
+
+URL: http://api.drop.io/drops/:drop_name
+
+Method: PUT
+
+Parameters:
+
+  • version
+      □ required string
+  • api_key
+      □ required string
+  • format
+      □ optional string
+      □ possible values: xml, json
+  • token
+      □ required string
+      □ Admin token required
+  •  guests_can_comment
+      □ optional boolean, default true
+      □ Determines whether guests can comment on assets
+  • guests_can_add
+      □ optional boolean, default true
+      □ Determines whether guests can comment on assets
+      □ NOTE: setting guests_can_add to true forces guests_can_comment to be
+        true. This is a known issue that we are addressing.
+  • guests_can_delete
+      □ optional boolean, default true
+      □ Determines whether guests can delete assets
+  • expiration_length
+      □ optional string
+      □ possible values: 1_DAY_FROM_NOW, 1_WEEK_FROM_NOW, 1_MONTH_FROM_NOW,
+        1_YEAR_FROM_NOW, 1_DAY_FROM_LAST_VIEW, 1_WEEK_FROM_LAST_VIEW,
+        1_MONTH_FROM_LAST_VIEW, 1_YEAR_FROM_LAST_VIEW
+      □ Determines the expiration length of the drop.
+  • password
+      □ optional string
+      □ This is the guest password for the drop.
+  • admin_password
+      □ optional string
+      □ This is the administrative password for the drop.
+  • premium_code
+      □ optional string
+      □ Used to upgrade drops to premium drops.
+
+Delete a drop
+
+When deleting a drop, you must supply the administrator token or password.
+
+URL: http://api.drop.io/drops/:drop_name
+
+Method: DELETE
+
+Parameters:
+
+  • version
+      □ required string
+  • api_key
+      □ required string
+  • format
+      □ optional string
+      □ possible values: xml, json
+  • token
+      □ required string
+      □ Admin token required
+
+Asset Resource
+
+Creating Assets
+
+Creating assets in Drop.io is as simplistic as we could make it. With Notes
+and Links being theoretically different entities, focusing on content rather
+than file contents, we have created two separate means for creating links,
+notes, and assets. The following descriptions will guide you in adding the
+meat and bones to your drop.
+
+
+Create a Link
+
+When creating a link, the title and description are not necessary, but
+obviously the url is.
+
+URL: http://api.drop.io/drops/:drop_name/assets
+
+Method: POST
+
+Parameters:
+
+  • version
+      □ required string
+  • api_key
+      □ required string
+  • format
+      □ optional string
+      □ possible values: xml, json
+  • token
+      □ optional string
+      □ Used to authenticate a guest or admin. Can be the token returned from
+        the API or the guest/admin password. Required for drops that have
+        them. Otherwise it's not.
+  • title
+      □ optional string
+      □ This field is to give a link a title.
+  • description
+      □ Use this to describe the link.
+  • url
+      □ required string
+      □ The actual URL of the link.
+
+Create a Note
+
+When creating a note, the title is optional, while the content is required.
+
+URL: http://api.drop.io/drops/:drop_name/assets
+
+Method: POST
+
+Parameters:
+
+  • version
+      □ required string
+  • api_key
+      □ required string
+  • format
+      □ optional string
+      □ possible values: xml, json
+  • token
+      □ optional string
+      □ Used to authenticate a guest or admin. Can be the token returned from
+        the API or the guest/admin password. Required for drops that have
+        them. Otherwise it's not.
+  • title
+      □ optional string
+      □ This is the title of the note.
+  • contents
+      □ required string
+      □ The content can contain basic HTML elements involved with RTF text
+        editing and can contain embeddable content, from around the internet,
+        and we'll strip out the bad stuff, including embed codes in which we
+        are unaware of. If you come across an embed code you would like to see
+        compatible with Drop.io, please send contact@dropio.com an email
+        requesting it be added.
+
+Create a File
+
+When uploading a file to Drop.io, you should post the file and the required
+parameters to the url in a multi-type encoded form. Uploading a file to a
+server via HTTP form post is described in RFC 1867: http://www.ietf.org/rfc/
+rfc1867.txt
+
+NOTE: The url for uploading is outside of the api.drop.io domain. When
+following the RF 1867, the Content-Disposition must include the name=file and
+filename=your_file_name. The Content-Type header may be omitted. An example of
+such a request that is accepted by Drop.io is here: http://groups.google.com/
+group/dropio-api/web/file-upload-raw-http.
+
+URL: http://assets.drop.io/upload
+
+Method: POST
+
+Parameters:
+
+  • version
+      □ required string
+  • api_key
+      □ required string
+  • token
+      □ optional string
+      □ Used to authenticate a guest or admin. Can be the token returned from
+        the API or the guest/admin password. Required for drops that have
+        them. Otherwise it's not.
+  • drop_name
+      □ required string
+      □ This is the name (url) of the drop. For example, http://drop.io/
+        my_random_drop_name ... the value you pass in is: my_random_drop_name.
+  • file
+      □ required file parameter
+
+Get a list of assets
+
+When getting a list of assets associated to a drop, they will be returned in
+an array format as a list of assets ordered by their creation date.
+
+Note: Assets are returned in pages of 30 assets at a time.
+
+URL: http://api.drop.io/drops/:drop_name/assets
+
+Method: GET
+
+Parameters:
+
+  • version
+      □ required string
+  • api_key
+      □ required string
+  • format
+      □ optional string
+      □ possible values: xml, json
+  • token
+      □ optional string
+      □ Used to authenticate a guest or admin. Can be the token returned from
+        the API or the guest/admin password. Required for drops that have
+        them. Otherwise it's not.
+  • page
+      □ optional integer
+      □ Used for pagination of assets. The Drop resource will return a current
+        count of assets. As noted above, assets are returned in pages of 30
+        assets.
+
+Get an asset
+
+When getting an asset, you will not receive the path to the direct original
+file download. Our business model requires a user to be authenticated and on
+our site to do that.
+URL: http://api.drop.io/drops/:drop_name/assets/:asset_name
+
+Method: GET
+
+Parameters:
+
+  • version
+      □ required string
+  • api_key
+      □ required string
+  • format
+      □ optional string
+      □ possible values: xml, json
+  • token
+      □ optional string
+      □ Used to authenticate a guest or admin. Can be the token returned from
+        the API or the guest/admin password. Required for drops that have
+        them. Otherwise it's not.
+
+Redirect to drop.io
+
+If there's a need to authenticate a web session on drop.io, example: when
+forwarding a person from your 3rd party system to Drop.io, this method will
+cause a session to be started and authentication to take place behind the
+scenes, relative to the signature in place. Depending on how the signature is
+constructed, the drop will log in appropriately for a guest or an admin.
+
+URL: http://drop.io/:drop_name/asset/:asset_name/from_api
+
+Method: GET
+
+Parameters:
+
+  • signature
+      □ required string
+      □ A specially formatted string that carries specific information with it
+        so we can authorize the request.
+      □ Generate a UTC Unix timestamp for expiration of this signature (no
+        longer than 15 minutes in advance of the request)
+      □ Combine the timestamp, token (Guest or Admin), Drop name (in that
+        particular order)... delimited by a "+" character.
+      □ The signature will be an SHA1 digest of the combined string from the
+        previous step and convert it to a HEX string.
+      □ Example: SHA1(1225455336+myGeneratedAppToken+myDropName) =
+        e4cda3527aee35a9917cb1d3a1dce720dffb00e5
+  • expires
+      □ required string
+      □ Unix timestamp format - http://en.wikipedia.org/wiki/Unix_time
+      □ UTC - http://en.wikipedia.org/wiki/Coordinated_Universal_Time
+      □ Ensure it's the same exact value as the one used to generate the
+        signature.
+
+ 
+
+Update an asset
+
+When updating an asset, you must have permissions to add or remove an asset
+before being able to edit the asset.
+
+URL: http://api.drop.io/drops/:drop_name/assets/:asset_name
+
+Method: PUT
+
+Parameters:
+
+  • version
+      □ required string
+  • api_key
+      □ required string
+  • format
+      □ optional string
+      □ possible values: xml, json
+  • token
+      □ optional string
+      □ Used to authenticate a guest or admin. Can be the token returned from
+        the API or the guest/admin password. Required for drops that have
+        them. Otherwise it's not.
+  • title
+      □ optional string
+      □ The title of the asset
+  • description
+      □ optional string
+      □ The description of the asset
+  • url
+      □ optional string
+      □ The URL of the Link.
+      □ Only used when updating a Link.
+  •  contents
+      □ optional string 
+      □ The content of the Note.
+      □ Only used when updating a Note
+
+Delete an asset
+
+When deleting an asset, you must supply the  administrator token or password.
+
+URL: http://api.drop.io/drops/:drop_name/assets/:asset_name
+
+Method: DELETE
+
+Parameters:
+
+  • version
+      □ required string
+  • api_key
+      □ required string
+  • format
+      □ optional string
+      □ possible values: xml, json
+  • token
+      □ optional string
+      □ Used to authenticate a guest or admin. Can be the token returned from
+        the API or the guest/admin password. Required for drops that have
+        them. Otherwise it's not.
+
+
+Send an asset
+
+When sending an asset, you must provide proper pairs of information to send
+to. For example, when the medium is 'fax' you must provide a 'fax_number'.
+
+URL: http://api.drop.io/drops/:drop_name/assets/:asset_name/send_to
+
+Method: POST
+
+Parameters:
+
+  • version
+      □ required string
+  • api_key
+      □ required string
+  • format
+      □ optional string
+      □ possible values: xml, json
+  • token
+      □ optional string
+      □ Used to authenticate a guest or admin. Can be the token returned from
+        the API or the guest/admin password. Required for drops that have
+        them. Otherwise it's not.
+  • medium
+      □ required string
+      □ possible values: fax, drop, email
+          ☆ When the value is fax, you must supply a fax_number parameter.
+          ☆ When the value is drop, you must supply a drop_name parameter
+          ☆ When the value is email, you must supply a emails parameter, which
+            is a comma separated list, and an optional message parameter
+
+Comment Resource
+
+Get a list of comments
+
+When getting a list of comments associated to an asset, they will be returned
+in an array format as a list of assets ordered by their creation date.
+
+URL: http://api.drop.io/drops/:drop_name/assets/:asset_name/comments 
+
+Method: GET
+
+Parameters:
+
+  • version
+      □ required string
+  • api_key
+      □ required string
+  • format
+      □ optional string
+      □ possible values: xml, json
+  • token
+      □ optional string
+      □ Used to authenticate a guest or admin. Can be the token returned from
+        the API or the guest/admin password. Required for drops that have
+        them. Otherwise it's not.
+
+Create a comment
+
+When creating a comment, you must have permissions to create a comment or add
+a note.
+
+URL: http://api.drop.io/drops/:drop_name/assets/:asset_name/comments
+
+Method: POST
+
+Parameters:
+
+  • version
+      □ required string
+  • api_key
+      □ required string
+  • format
+      □ optional string
+      □ possible values: xml, json
+  • token
+      □ optional string
+      □ Used to authenticate a guest or admin. Can be the token returned from
+        the API or the guest/admin password. Required for drops that have
+        them. Otherwise it's not.
+  • contents
+      □ required string
+      □ This is the actual comment, no HTML or embeddable content is allowed.
+
+Get a comment  
+
+When getting a comment, you must have permissions to view the drop.
+
+URL: http://api.drop.io/drops/:drop_name/assets/:asset_name/comments/
+:comment_id
+
+Method: GET
+
+Parameters:
+
+  • version
+      □ required string
+  • api_key
+      □ required string
+  • format
+      □ optional string
+      □ possible values: xml, json
+  • token
+      □ optional string
+      □ Used to authenticate a guest or admin. Can be the token returned from
+        the API or the guest/admin password. Required for drops that have
+        them. Otherwise it's not.
+
+Update a comment
+
+When updating a comment, you must supply the administrator token or password.
+
+URL: http://api.drop.io/drops/:drop_name/assets/:asset_name/comments/
+:comment_id
+
+Method: PUT
+
+Parameters:
+
+  • version
+      □ required string
+  • api_key
+      □ required string
+  • format
+      □ optional string
+      □ possible values: xml, json
+  • token
+      □ required string
+      □ Admin token required
+  • contents
+      □ required string
+
+Delete a comment
+
+When deleting a comment, you must supply the administrator token or password.
+
+URL: http://api.drop.io/drops/:drop_name/assets/:asset_name/comments/
+:comment_id
+
+Method: DELETE
+
+Parameters:
+
+  • version
+      □ required string
+  • api_key
+      □ required string
+  • format
+      □ optional string
+      □ possible values: xml, json
+  • token
+      □ required string
+      □ Admin token required
+
+Getting Help
+
+There are several ways to get help with Drop.io and its API. For faster
+results, you can consult our Discussions area where people, including Drop.io
+developers hang out and can answer your questions. If something isn't working
+right, you can also get help with Drop.io services through our Help page,
+including our GetSatisfaction page.
+
+Authors
+
+This document is being edited and maintained by Drop.io Platform Evangelist
+Jacob Good (jake@dropio.com).
+
+
+                       Version:  [Current by Jake Good - Mar 2               ]
+Report this page
+   Create a group - Google Groups - Google Home - Terms of Service - Privacy
+                                    Policy
+                                 ©2009 Google

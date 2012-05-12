@@ -1,0 +1,15 @@
+#! /bin/bash
+
+# Change these paths to match your setup:
+PREFIX=$PWD
+CH1=$PREFIX/ch.1
+CH2=$PREFIX/ch.2
+CH3=$PREFIX/ch.3
+TAB=$PREFIX/chemtab
+
+if echo $1 | grep -P "^[[:upper:]][[:lower:]]{0,2}$" > /dev/null
+then
+    grep -w $1 $TAB
+else
+    $CH3 $($CH2 $($CH1 $1))
+fi

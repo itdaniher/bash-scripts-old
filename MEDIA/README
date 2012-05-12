@@ -1,0 +1,13 @@
+These two files are various bash scripts I've written [or adjusted] 
+for CLI media-related activities. "mcfmod" is a heavy modification 
+of a last.fm mpd player which allows a user to play specific 
+songs, artists, genres, or songs via mpd and the command line. 
+"mcf --help" details syntax. The script as I have it now will 
+download and label a single mp3 file from a specified genre, 
+artist, or etc. The script depends on id3, xmlstarlet, and misc.
+other the standard GNU-linux tools. "youtubedl" is a fairly short 
+bash script which, given a youtube URL, provides an mplayer-able or
+wget'able download URL. While this is definitely not the shortest 
+of youtube download scripts, it is extremely readable and sends 
+the minimum required information to the youtube servers. This
+script can be used as a basis for other, similar scripts.

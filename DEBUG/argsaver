@@ -1,0 +1,2 @@
+echo $* >> args.lst
+#See LICENSE file for copyright and license details

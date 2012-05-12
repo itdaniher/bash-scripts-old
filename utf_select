@@ -1,0 +1,8 @@
+utf8_drct=~/.config/suckless/utf
+menu_main=$utf8-drct/menu_main
+menu_slct=$(ls $utf8_drct | launcher dmenu)
+utf8_char=$(cat $utf8_drct/$menu_slct | launcher dmenu | awk '{print $1}')
+echo -n $utf8_char | xsel -p -i
+echo -n $utf8_char | xsel -b -i
+
+

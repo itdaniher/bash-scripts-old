@@ -1,0 +1,347 @@
+#! /bin/bash
+#Written by Ian Daniher <it.daniher@gmail.com> and Andrew Pritchard <awpritchard@gmail.com>
+#Based heavily on work by Mads Michelsen <chochem@gmail.com>
+#LAST.FM SONG DOWNLOADER
+#LAST.FM OMNISCRIPT
+#Uses xmlstarlet, id3, standard gnu utils to download and label mp3 files
+
+##CHANGELOG##
+# New in 0.8.2
+# + resuming doesn't work due to last.fm restrictions, change to deleting partial files
+# New in 0.8.1
+# + enough stuff to really deserve a new major version number over 0.7
+# + making up for wasting a version number before (essentially skipping from 0.6 to 0.8)
+# + resuming downloads if they fail with curl -C (NOTE: last.fm might not allow re-connecting to the mp3 file, so this might fail and have to be replaced with simply deleting the files)
+# New in 0.8
+# + actually incrementing the version number in $VERSION
+# New in 0.7
+# + using search terms to customize radio results
+# + automatically organizing downloaded files as follows: $MUSIC_ROOT/$ARTIST/$ALBUM/$TITLE.mp3
+# + downloading all five mp3s given in each xspf playlist instead of ignoring the last four
+# + removing partially-downloaded mp3 files if the process recieves a ^C signal
+# + a jab at Ian in the changelog for "New in 0.4"
+# + help function echo'ed to stdout if no arguments given
+# New in 0.6
+# - dependency on xspf2m3u.xsl
+# + #FEHME_ tag for <images> in output
+# + xml output option
+# New in 0.5
+# + "FILE" definition to quickly change config file location
+# + m3u playlist generation support
+# - quitter to save SLOCs + complexity
+# New in 0.4
+# + scripting + downloading support
+# + small tweaks
+# + (awpritchard edit): completely ignoring search terms (courtesy of Ian)
+# + (awpritchard edit): name change to mcfmod
+# New in 0.3
+# + play specific lastfm:// address
+# + calculate md5sum in configuration
+# + a few bugfixes
+# New in 0.2
+# + separate configuration file
+# + group tag
+# + popular tags menu
+
+VERSION="0.8.2"
+
+if [ -z $FILE ]
+then
+    FILE=~/.config/mcf/uinfo
+else
+    echo "Using $FILE as config file"
+fi
+
+CONF=~/.config/mcf/config
+MUSIC_ROOT=/home/andrew/music/lastfm
+TIMEOUT=720  #time in seconds before curl assumes it has stalled and gives up.  Downside: no songs longer than $TIMEOUT seconds will successfully download.
+#MUSIC_ROOT=.
+###############################################################################
+# Output help and usage information.
+###############################################################################
+printhelp () {
+
+    U1="$(tput smul)"
+    U0="$(tput rmul)"
+    echo "$(basename "$0") $VERSION is a swiss army knife of last.fm haxx0rz-ing.  Use it to download music from last.fm based on search terms entered at the command line.
+Run '$(basename "$0") --setup' to generate a configuration file before first use.
+
+Syntax:
+  $(basename "$0") ${U1}<search key>${U0} ${U1}<search term(s)>${U0}
+  $(basename "$0") --setup
+  $(basename "$0") --output
+
+Search keys can be
+  ${U1}a${U0} for artist (e.g. 'new york dolls')
+  ${U1}f${U0} for last.fm's global tags, only one accepted (e.g. 'funky')
+  ${U1}l${U0} to pick a tag from a list of poular tags (does not require search terms)
+  ${U1}r${U0} for a group's radio station (e.g 'mpd')
+  ${U1}u${U0} for user's radio station (e.g. 'musiclover8462')
+  ${U1}n${U0} for user's neighbourhood radio station (e.g. 'musiclover8462')
+  ${U1}s${U0} for a specific last.fm address (e.g. 'lastfm://play/tracks/10413')
+
+last.fm is fairly strict with redirects but you should be able to get away with omitting initial \"The\"s and ignoring case. All search terms except user name and lasf.fm address can contain spaces. There is not currently a way to combine multiple tags using $(basename \"$0\")" 1>&2
+    exit
+}
+
+###############################################################################
+# Create a configuration file containing the user's last.fm username and
+# password hash. Delete the old file if it exists.
+###############################################################################
+setupConfFile () {
+    echo "Configuring $(basename "$0"). This will produce a configuration file, $FILE.
+" 1>&2
+    
+    USERNAME=""
+    PASSWORD=""
+    MDFIVE=""
+    
+    while [ -z "${USERNAME}" ]; do
+	read -ep "last.fm username: " USERNAME
+    done
+    
+    if which md5sum &> /dev/null; then
+	while [ -z "${PASSWORD}" ]; do
+	    read -sp "last.fm password: " PASSWORD
+	done
+	echo
+	MDFIVE=$(echo -n ${PASSWORD} | md5sum | cut -f1 -d' ')
+    else
+	echo "You don't have md5sum in your path. Either install it or use http://md5.rednoize.com/ or a similar site." 1>&2
+	while [ -z "${MDFIVE}" ]; do
+	    read -ep "What is the md5 hash of your last.fm password? " MDFIVE
+	done
+    fi
+    
+    echo "USERNAME=${USERNAME}" > $FILE
+    echo "MDFIVE=${MDFIVE}" >> $FILE
+    exit 1
+}
+
+###############################################################################
+# Download a list of popular tags and ask the user what to listen to.
+###############################################################################
+poptag () {
+    COLUMNS="$(tput cols)"
+    echo "Fetching tags from http://www.last.fm/charts/toptags"
+    TAGS=$(curl -s http://www.last.fm/charts/toptags| sed -ne 's|^.*"/tag/\([^"]*\).*$|\1|p')
+    ORIGINAL_IFS=$IFS
+    IFS=$'\n'
+    select TAG in $TAGS; do
+	SEARCHTERMS="$(echo "$TAG" | tr ' ' '+')"
+	break
+    done
+    IFS=$ORIGINAL_IFS
+}
+
+###############################################################################
+# Decode last.fm urls to SEARCH and SEARCHTERMS format.
+# Urls do not need to be prefixed with lastfm://
+###############################################################################
+decodeUrl () {
+  # Decompose to lastfm://SEARCH/SEARCHTERMS
+    SEARCH="$(echo "$SEARCHTERMS" | sed -ne 's|^\(lastfm\)\?:\?/*\([^/]*\).*$|\2|p')"
+    SEARCHTERMS="$(echo "$SEARCHTERMS" | sed -ne "s|^\(lastfm\)\?:\?/*${SEARCH}/*\(.*\)$|\2|p")"
+    
+  # Make sure none of them are zero length by now.
+    if [ -z "$SEARCH" ] || [ -z "$SEARCHTERMS" ]; then
+	echo "Invalid last.fm address!" 1>&2
+	exit 1
+    fi
+}
+
+###############################################################################
+# Parse last.fm's 5-song XSPF playlist to extract future id3 tags and 
+#   URLs of mp3s
+###############################################################################
+parseXML () {
+
+    TITLE1=$(echo $XML|xml sel -T -t -v "//track/title"  -n)
+    ALBUM1=$(echo $XML|xml sel -T -t -v "//track/album"  -n)
+    ARTST1=$(echo $XML|xml sel -T -t -v "//track/creator"  -n)
+    URL1=$(echo $XML|xml sel -T -t -v "//track/location"  -n)
+    
+    TITLE2=$(echo $XML|xml sel -T -t -v "//track[2]/title"  -n)
+    ALBUM2=$(echo $XML|xml sel -T -t -v "//track[2]/album"  -n)
+    ARTST2=$(echo $XML|xml sel -T -t -v "//track[2]/creator"  -n)
+    URL2=$(echo $XML|xml sel -T -t -v "//track[2]/location"  -n)
+    
+    TITLE3=$(echo $XML|xml sel -T -t -v "//track[3]/title"  -n)
+    ALBUM3=$(echo $XML|xml sel -T -t -v "//track[3]/album"  -n)
+    ARTST3=$(echo $XML|xml sel -T -t -v "//track[3]/creator"  -n)
+    URL3=$(echo $XML|xml sel -T -t -v "//track[3]/location"  -n)
+    
+    TITLE4=$(echo $XML|xml sel -T -t -v "//track[4]/title"  -n)
+    ALBUM4=$(echo $XML|xml sel -T -t -v "//track[4]/album"  -n)
+    ARTST4=$(echo $XML|xml sel -T -t -v "//track[4]/creator"  -n)
+    URL4=$(echo $XML|xml sel -T -t -v "//track[4]/location"  -n)
+    
+    TITLE5=$(echo $XML|xml sel -T -t -v "//track[5]/title"  -n)
+    ALBUM5=$(echo $XML|xml sel -T -t -v "//track[5]/album"  -n)
+    ARTST5=$(echo $XML|xml sel -T -t -v "//track[5]/creator"  -n)
+    URL5=$(echo $XML|xml sel -T -t -v "//track[5]/location"  -n)
+}
+
+###############################################################################
+# Download all 5 mp3s and tag them, discarding the files if the process is
+#   killed partway through the download.  Also, if any instance of curl exits 
+#   unsuccessfully, restart it.
+###############################################################################
+downloadMP3 () {
+
+    A_FILE1="$MUSIC_ROOT/$ARTST1/$ALBUM1/$TITLE1.mp3" 
+    A_FILE2="$MUSIC_ROOT/$ARTST2/$ALBUM2/$TITLE2.mp3" 
+    A_FILE3="$MUSIC_ROOT/$ARTST3/$ALBUM3/$TITLE3.mp3" 
+    A_FILE4="$MUSIC_ROOT/$ARTST4/$ALBUM4/$TITLE4.mp3" 
+    A_FILE5="$MUSIC_ROOT/$ARTST5/$ALBUM5/$TITLE5.mp3" 
+    
+    for i in "$ARTST1" "$ARTST2" "$ARTST3" "$ARTST4" "$ARTST5"
+    do
+	if [ ! -d "$MUSIC_ROOT/$i" ]
+	then
+	    mkdir "$MUSIC_ROOT/$i"
+	fi
+    done  # create directory structure for new artists
+    
+    for i in "$ARTST1/$ALBUM1" "$ARTST2/$ALBUM2" "$ARTST3/$ALBUM3" "$ARTST4/$ALBUM4" "$ARTST5/$ALBUM5"
+    do
+	if [ ! -d "$MUSIC_ROOT/$i" ]
+	then
+	    mkdir "$MUSIC_ROOT/$i"
+	fi
+    done  # create directory structure for new albums
+    
+    echo
+    echo "Downloading the following songs:"
+    echo "\"$TITLE1\" by \"$ARTST1\""
+    echo "\"$TITLE2\" by \"$ARTST2\""
+    echo "\"$TITLE3\" by \"$ARTST3\""
+    echo "\"$TITLE4\" by \"$ARTST4\""
+    echo "\"$TITLE5\" by \"$ARTST5\""
+    echo
+    
+    trap "rm \"$A_FILE1\"; exit" 2
+    curl -# $URL1 -o "$A_FILE1" --max-time $TIMEOUT
+    if [ $? -ne 0 ]
+    then
+	rm $A_FILE1
+    fi
+    id3v2 -t "$TITLE1" -a "$ARTST1" -A "$ALBUM1" "$A_FILE1"
+
+    trap "rm \"$A_FILE2\"; exit" 2
+    curl -# $URL2 -o "$A_FILE2" --max-time $TIMEOUT
+    if [ $? -ne 0 ]
+    then
+	rm $A_FILE2
+    fi
+    id3v2 -t "$TITLE2" -a "$ARTST2" -A "$ALBUM2" "$A_FILE2"
+
+    trap "rm \"$A_FILE3\"; exit" 2
+    curl -# $URL3 -o "$A_FILE3" --max-time $TIMEOUT
+    if [ $? -ne 0 ]
+    then
+	rm $A_FILE3
+    fi
+    id3v2 -t "$TITLE3" -a "$ARTST3" -A "$ALBUM3" "$A_FILE3"
+
+    trap "rm \"$A_FILE4\"; exit" 2
+    curl -# $URL4 -o "$A_FILE4" --max-time $TIMEOUT
+    if [ $? -ne 0 ]
+    then
+	rm $A_FILE4
+    fi
+    id3v2 -t "$TITLE4" -a "$ARTST4" -A "$ALBUM4" "$A_FILE4"
+
+    trap "rm \"$A_FILE5\"; exit" 2
+    curl -# $URL5 -o "$A_FILE5" --max-time $TIMEOUT
+    if [ $? -ne 0 ]
+    then
+	rm $A_FILE5
+    fi
+    id3v2 -t "$TITLE5" -a "$ARTST5" -A "$ALBUM5" "$A_FILE5"
+
+    trap "exit" 2 #reset the ^C signal
+}
+
+###############################################################################
+# Write the new output destination to the miniature conf-file and, for some 
+#   reason, exit unsuccessfully
+###############################################################################
+changeOutput () {
+    echo "
+Options include:
+m3u - outputs a date/timestamped m3u playlist
+stdout - dumps a list of tracks with human-readable metadata
+mp3 - downloads mp3s
+xml - outputs the raw xml/xspf playlist"
+    read -p "What output should mcfmod use?" OPTION
+    echo $OPTION > $CONF
+    exit 1
+}
+
+###############################################################################
+# Non-function code begins here.
+###############################################################################
+
+# Check for configuration file
+if [ -f $FILE ]
+then
+  source $FILE
+fi
+
+# Get search terms
+SEARCHKEY="$1"
+shift
+SEARCHTERMS="$(echo "$*" | tr ' ' '+')"
+case "$SEARCHKEY" in
+    a) SEARCH="artist";     SEARCH2="";;
+    f) SEARCH="globaltags"; SEARCH2="";;
+    l) SEARCH="globaltags"; SEARCH2="";poptag;;
+    r) SEARCH="group";      SEARCH2="";;
+    u) SEARCH="user";       SEARCH2="/personal";;
+    n) SEARCH="user";       SEARCH2="/neighbours";;
+    s) decodeUrl;;
+    --setup) setupConfFile;;
+    --output) changeOutput;;
+    *) printhelp;;
+esac
+
+###############################################################################
+# Negotiating with last.fm
+###############################################################################
+
+BROWSERID="Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.13) Gecko/20080325 Ubuntu/7.10 (gutsy) Firefox/2.0.0.13"
+LASTURL="http://ws.audioscrobbler.com/radio/handshake.php?version=1.1.1&platform=linux&username=${USERNAME}&passwordmd5=${MDFIVE}&debug=0&partner="
+HANDSHAKE="$(wget -q -t 1 -T 15 -U "$BROWSERID" "$LASTURL" -O - || exit 1)"
+SSID="$(echo "$HANDSHAKE" | grep ^session | cut -d = -f 2)"
+
+REQURL="http://ws.audioscrobbler.com/radio/adjust.php?session=${SSID}&url=lastfm://${SEARCH}/${SEARCHTERMS}${SEARCH2}&debug=0"
+REQUEST="$(wget -q -t 1 -T 15 -U "$BROWSERID" "$REQURL" -O - || exit 1)"
+
+echo "SSID=$SSID"
+if [ "$SSID" == "FAILED" ]
+then
+    exit 1
+fi
+
+URL="http://ws.audioscrobbler.com/radio/xspf.php?sk=$SSID&discovery=1&desktop=1.3.0.58"
+XML="$(curl -s $URL)"
+
+###############################################################################
+# Pass control to final output functions
+###############################################################################
+
+echo "Station Name: " $(echo $REQUEST | sed 's/.*name=//')
+
+if [ -z "$OUTPUT" ]
+then
+    OUTPUT=$(cat $CONF)
+fi
+
+case $OUTPUT in
+    m3u) echo $XML | xml tr ~/.config/mcf/xspf2m3u.xsl > ~/$(date +%m.%d.%y-%H:%M)-last.fm.m3u;;
+    stdout) echo $XML | xml sel -M -t -m //trackList/track -o "#" -v ./title -o " by " -v ./creator -n -v ./location -n -o "#FEHME_" -v ./image -n -n;;
+    mp3) parseXML; downloadMP3;;
+    xml) curl -s $URL;;
+esac
+

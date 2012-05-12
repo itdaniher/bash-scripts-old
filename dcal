@@ -1,0 +1,7 @@
+source ~/.config/suckless/settings
+while true; do
+	echo "^tw() $(date +%a\ %Y.%m.%d\ %H:%M:%S)"
+	echo "^c() $(cal)"
+	sleep 1;  
+done | dzen2 -l 7 -p -fn $fn -sa c -w 300 -x 724 -bg $sb -fg $nb
+

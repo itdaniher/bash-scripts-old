@@ -1,0 +1,48 @@
+#! /bin/bash
+
+# dclip-2.0 || Delta 05ene09 || Daniher 2009.03.18
+
+file=$HOME/.dclip_cache
+size=100
+dmenu_cmd="launcher dmenu"
+
+if [ "$1" == "copy" ]
+then
+    sel_clip=$(xsel)
+    sel_file=$(echo -n "$sel_clip"|tr '\n' '\034')
+fi
+touch $file 
+if [ "$1" == "paste" ]
+then 
+    shift 
+    sel_file=$(cat $file | $dmenu_cmd ${1+"$@"}) 
+    sel_clip=$(echo -n "$sel_file"|tr '\034' '\n')
+fi
+if [ "$1" == "sprunge" ]
+then
+	sel_file=$(cat $file | $dmenu_cmd)
+	sel_clip=$(echo -n "$sel_file"|tr '\034' '\n')
+	NewURL=$(echo $sel_clip | curl -sF 'sprunge=<-' http://sprunge.us)
+	NewURL=$(echo $NewURL | sed -e "s/ //g")
+	sel_clip=$NewURL
+fi
+if [ "$1" == "tr.im" ]
+then 
+   sel_file=$(cat $file | $dmenu_cmd)
+   sel_clip=$(echo -n "$sel_file"|tr '\034' '\n')
+	SubjectURL="$sel_clip"
+	TargetURL=$(echo "" | launcher dmenu -p "TargetURL:")
+	NewURL=$(curl -s "http://api.tr.im/api/trim_simple?custom=$TargetURL&url=$SubjectURL")
+	sel_clip=$NewURL
+fi
+[ "$sel_clip" == "" ] && exit 1
+
+cut=$(head -n $(($size-1)) $file)
+echo "$sel_file" > $file
+echo -n "${cut//"$sel_file"/}" | sed '/^$/d' >> $file
+
+echo -n "$sel_clip" | xsel -p -i
+echo -n "$sel_clip" | xsel -b -i
+
+exit 0
+#See LICENSE file for copyright and license details

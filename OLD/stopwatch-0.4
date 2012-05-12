@@ -1,0 +1,36 @@
+#!/bin/bash
+
+if [ "$1" == "h" ]
+then
+echo "Help:
+	-s will print seconds exclusively
+	-m (default) will print minutes and seconds"
+exit 1
+fi
+BEGIN=$(date +%s.%N | cut -c 1-14)
+while [ True ]
+do
+	NOW=$(date +%s.%N | cut -c 1-14)
+	DIF=$(echo $NOW - $BEGIN | bc)
+	SEC=$(echo $DIF|awk -F. '{print $1}')
+	NSC=$(echo $DIF|awk -F. '{print $2}')
+	if [ $SEC ]
+		then 
+		RMD=$(echo $SEC%60 | bc)
+		RND=$(echo $SEC-$RMD | bc)
+		MIN=$(echo $RND/60 | bc)
+		if [ $SEC -gt 60 ]
+		then
+			if [ $1 ]
+			then
+				echo -ne "$SEC.$NSC\r"
+			else
+			echo -ne $MIN:"$(printf "%02d" $RMD).$NSC\r"
+			fi
+		else
+			echo -ne "$(printf "%02d" $SEC).$NSC\r"
+		fi
+	else
+		echo -ne "00.$NSC\r"
+	fi
+done

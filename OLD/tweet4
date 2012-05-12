@@ -1,0 +1,34 @@
+    #!/bin/bash
+
+    STAT=$(echo $@)
+    UNAME=twitter
+    PW=secret
+
+    #=- Character Limit
+    if [ $(echo $STAT|wc -m) -gt 140 ]; then
+     echo 'Too many characters: '$(echo $STAT|wc -m)
+     echo 'Keep it under 140'
+     exit 1
+    fi
+    #=- Spell Check
+    if [ -n "$(echo $STAT|aspell -a list|grep \&)" ]; then
+     echo "Misspellings:"
+     echo $STAT|aspell -a list|grep \&
+     echo 'Post anyway? [Y/n]: '
+     read RESPONSE
+     if [ ! "$RESPONSE" = "y" ] && [ ! "$RESPONSE" = "Y" ] && [ ! -z "$RESPONSE" ]; then
+       exit 0
+     fi
+    fi
+    #=- Proxy huooi
+    if [ -z "$http_proxy" ]; then
+     PROX=''
+    else
+     PROXHOST=$(echo $http_proxy|sed 's/^.*@//')
+     PROXUAP=$(echo $http_proxy|sed 's/@.*$//'|sed 's/^http:\/\///')
+     PROX="-x $PROXHOST -U $PROXUAP "
+    fi
+
+    curl $PROX-u $UNAME:$PW -d status="$STAT" http://twitter.com/statuses/update.xml|grep -e '<created_at>\|<text>\|<screen_name>'|sed 's/<[^<>]*>//g'|sed 's/^ *//'
+
+Posted by Sutrannu at 4:40 PM 

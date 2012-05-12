@@ -1,0 +1,21 @@
+if [ $1 == --feh-install ]
+then
+	yum -y install feh
+	mkdir /home/olpc/imgs
+	echo "put photos here: /home/olpc/imgs"
+elif [ $1 == --display-imgs ]
+then
+	feh -rzFx -D 5 /home/olpc/imgs/*
+elif [ $1 == --get-imgs ]
+then
+	echo "coming soon!"
+else
+echo '
+acceptable arguments are:
+	 --feh-install		installs feh
+	 --display-imgs		runs a slideshow of images in /home/olpc/imgs
+	 --get-imgs		grabs images from a CC source
+'
+fi
+#hash = md5(filename); url = "http://upload.wikimedia.org/wikipedia/commons/' + hash[0] + '/' + hash[0] + hash[1] + '/' + filename"
+#See LICENSE file for copyright and license details

@@ -1,0 +1,6 @@
+#! /bin/sh
+while true
+do
+	sleep 2
+	xsetroot -name "$(myscript)" || exit 0    
+done

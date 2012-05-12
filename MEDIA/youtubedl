@@ -1,0 +1,20 @@
+#!/bin/bash
+
+if [ -z "$1" ]
+then
+exit 0
+fi
+
+#VIDEOID="${1#*v=}"
+
+UGETURL=$(curl -s $1 |grep video_id|grep fullscreenUrl)
+
+URLPARAMS="${UGETURL#*/watch_fullscreen}"
+FILENAME="${URLPARAMS#*&title=}"
+
+video_id=$(echo $URLPARAMS | awk -F"&" '{print $3}') 
+t=$(echo $URLPARAMS | awk -F"&" '{print $7}')
+URL="http://www.youtube.com/get_video?&$video_id&$t"
+#mplayer -really-quiet -vo null $URL&> /dev/null&
+echo $URL
+#See LICENSE file for copyright and license details

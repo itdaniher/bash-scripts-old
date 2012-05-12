@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [ -z "$1" ]
+then
+exit 0
+fi
+UGETURL=$(curl -s $1 |grep fullscreenUrl)
+URLPARAMS="${UGETURL#*/watch_fullscreen}"
+SPLIT=$(echo "$URLPARAMS" | sed -e 's/&/\n/g')
+video_id=$(echo "$SPLIT" | grep video_id=)
+t=$(echo "$SPLIT" | grep t=)
+video_name=$(curl -s $1 | grep "title" | head -n 1 | xml sel -T -t -v /title)
+URL="http://www.youtube.com/get_video?&$video_id&$t&fmt=18"
+echo "$URL :: $video_name"
+video_name=$(echo $video_name | sed -e 's/\//\\/g' | sed -e 's/YouTube - //g')
+wget -q "$URL" -O "$video_name".mp4&
+if [ $2 ]
+then
+mplayer -really-quiet $URL&> /dev/null&
+fi
+#See LICENSE file for copyright and license details

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<drop>
+<admin_token>yqq7esy0s0</admin_token>
+<guests_can_add type="boolean">false</guests_can_add>
+<expiration_length>1_WEEK_FROM_LAST_VIEW</expiration_length>
+<guests_can_delete type="boolean">false</guests_can_delete>
+<hidden_upload_url>http://drop.io/hidden/bvtexzgzx08dyj/upload</hidden_upload_url>
+<max_bytes type="integer">104857600</max_bytes>
+<fax>http://drop.io/0gtvmv6/XKYSPUX/Fax_Coverpage.pdf</fax>
+<voicemail>646-462-4161 x 03463</voicemail>
+<asset_count type="integer">0</asset_count>
+<conference> 218-486-3891 x 835444370</conference>
+<email>0gtvmv6@drop.io</email>
+<name>0gtvmv6</name>
+<current_bytes type="integer">0</current_bytes>
+<rss>http://drop.io/kghtookujsywksqfevm2/b92d8523b628934e0feada05edbf3600dc6ef525/0gtvmv6.rss</rss>
+<guests_can_comment type="boolean">false</guests_can_comment>
+</drop>
+

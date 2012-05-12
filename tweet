@@ -1,0 +1,32 @@
+#!/bin/bash
+ 
+# Login information.
+USERNAME="itdaniher"
+URL=http://twitter.com/statuses/update.xml
+ 
+# Check message length.
+
+# Check message length again.
+message="$@"
+max_len=140;
+len=`echo ${#message}`
+misspellings=$(echo $message|aspell -a list|grep \&)
+if [ "$misspellings" ]
+then
+	echo -n "Misspellings:"
+	echo $misspellings|sed -e 's/& /\n/g'
+	echo 'Post anyway? [Y/n]: '
+	read RESPONSE
+	if [ ! "$RESPONSE" = "y" ] && [ ! "$RESPONSE" = "Y" ]
+		then
+		exit 0
+	fi
+fi
+
+if [ $len -gt 140 ]; then
+	echo "Your message was longer than 140 chars(it was $len) and was not posted.";
+	exit 0
+fi
+ 
+# Post to Twitter.
+result=`curl -s -u $USERNAME:$PASSWORD -d status="$message" $URL`

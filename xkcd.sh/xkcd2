@@ -1,0 +1,6 @@
+i=1
+while [ $i -lt $(curl -s xkcd.com | grep "Permanent link" | sed -e 's/<h3>//g' -e 's/<\/h3>//g' -e 's/\///g' -e 's/Permanent link to this comic: http:xkcd.com//g') ]
+do
+curl -s xkcd.com/$i/ | grep imgs.xkcd.com/comics | grep "<img" | sed -e 's/<br\/>//g' >> /tmp/xkcd.list
+i=$(($i +1))
+done

@@ -1,0 +1,9 @@
+for a in $(cat ~/.dwm)
+do
+	ARG=-$(echo $a | cut -f 1 -d =)
+	VAL=$(echo $a |  cut -f 2 -d =)
+	AGS="$AGS $ARG $VAL"
+done
+CMD="dwm $AGS"
+echo $CMD
+exec-string "$CMD"

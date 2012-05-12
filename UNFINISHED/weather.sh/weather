@@ -1,0 +1,9 @@
+#LOC="KCVG"
+LOC=$1
+URL="http://www.nws.noaa.gov/xml/current_obs/$LOC.xml"
+XML=$(curl -s $URL | grep -v NA)
+#echo $XML | sed -e "s/> </>\n</g" | sed -e "s/>/>\t\t/g" | cut -f1-2 -d \> | cut -f1-2 -d \< | sed -e "s/<//g" -e "s/>/:/g"
+echo $XML | sed -e "s/> </>\n</g"
+#echo $XML|xmlstarlet sel -T -t -v "//current_obs/title"  -n
+#feh http://radar.weather.gov/Conus/RadarImg/centgrtlakes.gif
+#feh http://radar.weather.gov/Conus/RadarImg/latest.gif

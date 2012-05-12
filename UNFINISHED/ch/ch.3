@@ -1,0 +1,18 @@
+#! /bin/bash
+
+mm=0
+while [ "$1" != "" ]
+do
+    line=$(cat $PWD/chemtab | grep -w $1)
+    cur=$(echo $line | awk '{print $4}')
+    if echo $2 | grep -P '^[[:digit:]]+$' > /dev/null
+    then
+	mm=$(echo "$mm + $cur * $2" | bc)
+	shift
+    else
+	mm=$(echo "$mm + $cur" | bc)
+    fi
+    shift
+done
+#echo "mm=$mm"
+echo $mm

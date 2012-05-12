@@ -1,0 +1,30 @@
+if [ $1 == --mpd-install ]
+then
+	rpm --import http://rpm.livna.org/RPM-LIVNA-GPG-KEY
+	rpm -i http://rpm.livna.org/livna-release-9.rpm
+#	yum update
+	yum  -y install mplayer mpd
+	sed '5c\
+	music_directory                 "/media/"' /etc/mpd.conf
+elif [ $1 == --create-db ]
+then
+	mpd --create-db
+	kill $(pgrep mpd)
+	mpd
+elif [ $1 == --wymypy-install ]
+then
+	wget http://pypi.python.org/packages/2.4/w/wymypy/wymypy-1.2-py2.4.egg
+	mv wymypy-1.2-py2.4.egg wymypy-1.2.zip
+	unzip wymypy-1.2.zip
+	cd wymy*
+	chmod +x wymypy.py
+	./wymypy.py&
+else
+echo '
+acceptable commands are:
+	 --mpd-install 			installs mpd
+	 --create-db			creates the mpd database (run me after sticking music in /media or on any drives in /media)
+	 --wymypy-install 		installs and runs wymypy
+'
+fi
+#See LICENSE file for copyright and license details

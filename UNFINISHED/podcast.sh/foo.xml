@@ -1,0 +1,271 @@
+<?xml version="1.0"?>
+<?xml-stylesheet title="XSL_formatting" type="text/xsl" href="/include/xsl/podcast.xsl"?>
+<rss xmlns:npr="http://www.npr.org/rss/" xmlns:nprml="http://api.npr.org/nprml" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+  <channel>
+    <title>NPR: Science Friday Podcast</title>
+    <link>http://www.sciencefriday.com/?ft=2&amp;f=510221</link>
+    <description><![CDATA[Science Friday, as heard on NPR, is a weekly discussion of the latest news in science, technology, health, and the environment hosted by Ira Flatow.  Ira interviews scientists, authors, and policymakers, and listeners can call in and ask questions as well. Hear it each week on NPR stations nationwide -- or online here!]]></description>
+    <copyright>Copyright 2007 NPR - For Personal Use Only</copyright>
+    <generator>NPR API RSS Generator 0.92</generator>
+    <language>en-us</language>
+    <summary><![CDATA[Science Friday, as heard on NPR, is a weekly discussion of the latest news in science, technology, health, and the environment hosted by Ira Flatow.  Ira interviews scientists, authors, and policymakers, and listeners can call in and ask questions as well. Hear it each week on NPR stations nationwide -- or online here!]]></summary>
+    <subtitle>Science Friday, as heard on NPR, is a weekly discussion of the latest news in science, technology, h</subtitle>
+    <keywords>NPR,National Public Radio,Science Friday,Morning Edition,All Things Considered,Fresh Air</keywords>
+    <author>National Public Radio</author>
+    <owner>
+      <email/>
+      <name/>
+    </owner>
+    <image href="http://media.npr.org/images/podcasts/primary/npr_sciencefriday_300.jpg"/>
+    <explicit>no</explicit>
+    <image>
+      <url>http://media.npr.org/images/podcasts/thumbnail//npr_sciencefriday_75.jpg</url>
+      <title>NPR: Science Friday Podcast</title>
+      <link>http://www.sciencefriday.com/?ft=2&amp;f=510221</link>
+    </image>
+    <lastBuildDate>Fri, 13 Mar 2009 18:03:51 -0400</lastBuildDate>
+    <item>
+      <title>Does Wall Street Need More Physicists?</title>
+      <description><![CDATA[In better times, generous paychecks and computational challenges attracted physicists and engineers to Wall Street, but some experts now blame them for the crash. Andrew Lo, a financial engineer at MIT, discusses why Wall Street needs these number crunchers more than ever.]]></description>
+      <pubDate>Fri, 13 Mar 2009 18:03:51 -0400</pubDate>
+      <link>http://www.npr.org/templates/story/story.php?storyId=101868301&amp;ft=2&amp;f=510221</link>
+      <guid>http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101898843/npr_101898843.mp3</guid>
+      <summary><![CDATA[In better times, generous paychecks and computational challenges attracted physicists and engineers to Wall Street, but some experts now blame them for the crash. Andrew Lo, a financial engineer at MIT, discusses why Wall Street needs these number crunchers more than ever.]]></summary>
+      <keywords>NPR,National Public Radio,Science Friday,Morning Edition,All Things Considered,Fresh Air</keywords>
+      <duration>13:03</duration>
+      <explicit>no</explicit>
+      <enclosure url="http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101898843/npr_101898843.mp3" length="6298313" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>A New Era For Science In The U.S.?</title>
+      <description><![CDATA[President Obama loosened restrictions on stem-cell research this week and mandated that science should inform policy. Nobel laureate Peter Agre offers insights on how scientists can guide smart policy decisions, how to engage the public on science and what science could do for diplomacy abroad.]]></description>
+      <pubDate>Fri, 13 Mar 2009 18:03:45 -0400</pubDate>
+      <link>http://www.npr.org/templates/story/story.php?storyId=101868298&amp;ft=2&amp;f=510221</link>
+      <guid>http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101898840/npr_101898840.mp3</guid>
+      <summary><![CDATA[President Obama loosened restrictions on stem-cell research this week and mandated that science should inform policy. Nobel laureate Peter Agre offers insights on how scientists can guide smart policy decisions, how to engage the public on science and what science could do for diplomacy abroad.]]></summary>
+      <keywords>NPR,National Public Radio,Science Friday,Morning Edition,All Things Considered,Fresh Air</keywords>
+      <duration>22:34</duration>
+      <explicit>no</explicit>
+      <enclosure url="http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101898840/npr_101898840.mp3" length="10867860" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>Computer Whiz Barbara Liskov Wins Turing Award</title>
+      <description><![CDATA[Barbara Liskov earned a doctorate in computer science in 1968, becoming the first woman to do so. Liskov speaks with Ira Flatow about winning the 2008 Turing Award &mdash; widely considered the "Nobel Prize in Computing" &mdash; for her lifelong achievements in programming language design.]]></description>
+      <pubDate>Fri, 13 Mar 2009 18:03:41 -0400</pubDate>
+      <link>http://www.npr.org/templates/story/story.php?storyId=101868293&amp;ft=2&amp;f=510221</link>
+      <guid>http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101898835/npr_101898835.mp3</guid>
+      <summary><![CDATA[Barbara Liskov earned a doctorate in computer science in 1968, becoming the first woman to do so. Liskov speaks with Ira Flatow about winning the 2008 Turing Award &mdash; widely considered the "Nobel Prize in Computing" &mdash; for her lifelong achievements in programming language design.]]></summary>
+      <keywords>NPR,National Public Radio,Science Friday,Morning Edition,All Things Considered,Fresh Air</keywords>
+      <duration>12:28</duration>
+      <explicit>no</explicit>
+      <enclosure url="http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101898835/npr_101898835.mp3" length="6016817" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>Give It A Shake, Cornstarch Comes Alive</title>
+      <description><![CDATA[A science fair project for the recession: combine cornstarch and water to make a fluid with bizarre physical properties. Physicists Harry Swinney and Robert Deegan explain why the mixture behaves like it has a life of its own.]]></description>
+      <pubDate>Fri, 13 Mar 2009 18:03:39 -0400</pubDate>
+      <link>http://www.npr.org/templates/story/story.php?storyId=101868290&amp;ft=2&amp;f=510221</link>
+      <guid>http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101898832/npr_101898832.mp3</guid>
+      <summary><![CDATA[A science fair project for the recession: combine cornstarch and water to make a fluid with bizarre physical properties. Physicists Harry Swinney and Robert Deegan explain why the mixture behaves like it has a life of its own.]]></summary>
+      <keywords>NPR,National Public Radio,Science Friday,Morning Edition,All Things Considered,Fresh Air</keywords>
+      <duration>3:42</duration>
+      <explicit>no</explicit>
+      <enclosure url="http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101898832/npr_101898832.mp3" length="1811103" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>Can Fearful Memories Be Erased?</title>
+      <description><![CDATA[Scientists studying how the brain forms memories have found that by targeting brain cells expressing a certain gene in mice, they can erase a fearful memory association days after the event. Steven Kushner and colleagues describe the research in the journal <em>Science</em>.]]></description>
+      <pubDate>Fri, 13 Mar 2009 18:03:36 -0400</pubDate>
+      <link>http://www.npr.org/templates/story/story.php?storyId=101868285&amp;ft=2&amp;f=510221</link>
+      <guid>http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101898829/npr_101898829.mp3</guid>
+      <summary><![CDATA[Scientists studying how the brain forms memories have found that by targeting brain cells expressing a certain gene in mice, they can erase a fearful memory association days after the event. Steven Kushner and colleagues describe the research in the journal Science.]]></summary>
+      <keywords>NPR,National Public Radio,Science Friday,Morning Edition,All Things Considered,Fresh Air</keywords>
+      <duration>14:07</duration>
+      <explicit>no</explicit>
+      <enclosure url="http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101898829/npr_101898829.mp3" length="6808014" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>Batteries Of The Future May Charge In Seconds</title>
+      <description><![CDATA[Researchers reporting in the journal <em>Nature</em> say that they've modified the surface of one component of a lithium-ion battery to allow the lithium ions to move more freely. Gerd Ceder of MIT explains how this advance could lead to batteries that charge in a matter of seconds.]]></description>
+      <pubDate>Fri, 13 Mar 2009 18:03:32 -0400</pubDate>
+      <link>http://www.npr.org/templates/story/story.php?storyId=101868280&amp;ft=2&amp;f=510221</link>
+      <guid>http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101898826/npr_101898826.mp3</guid>
+      <summary><![CDATA[Researchers reporting in the journal Nature say that they've modified the surface of one component of a lithium-ion battery to allow the lithium ions to move more freely. Gerd Ceder of MIT explains how this advance could lead to batteries that charge in a matter of seconds.]]></summary>
+      <keywords>NPR,National Public Radio,Science Friday,Morning Edition,All Things Considered,Fresh Air</keywords>
+      <duration>17:48</duration>
+      <explicit>no</explicit>
+      <enclosure url="http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101898826/npr_101898826.mp3" length="8576817" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>Physicists Hunt For Hidden Particles</title>
+      <description><![CDATA[Scientists using Fermilab's Tevatron particle accelerator report findings on the makeup of matter. Updates include the sighting of a single top quark and progress in the hunt for one of the holy grails of physics &mdash; the Higgs boson. Fermilab's Heidi Schellman describes the news.]]></description>
+      <pubDate>Fri, 13 Mar 2009 18:03:29 -0400</pubDate>
+      <link>http://www.npr.org/templates/story/story.php?storyId=101868276&amp;ft=2&amp;f=510221</link>
+      <guid>http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101898822/npr_101898822.mp3</guid>
+      <summary><![CDATA[Scientists using Fermilab's Tevatron particle accelerator report findings on the makeup of matter. Updates include the sighting of a single top quark and progress in the hunt for one of the holy grails of physics &mdash; the Higgs boson. Fermilab's Heidi Schellman describes the news.]]></summary>
+      <keywords>NPR,National Public Radio,Science Friday,Morning Edition,All Things Considered,Fresh Air</keywords>
+      <duration>12:28</duration>
+      <explicit>no</explicit>
+      <enclosure url="http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101898822/npr_101898822.mp3" length="6018280" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>300-Million-Year-Old Fish Brain Discovered</title>
+      <description><![CDATA[Soft tissue like the brain is usually the first thing to go when an organism decomposes, but not always, according to a new discovery. Researchers working in Kansas dug up a fish skull containing an ancient fossilized brain. John Maisey of the American Museum of Natural History discusses the fossil.]]></description>
+      <pubDate>Fri, 06 Mar 2009 18:04:53 -0500</pubDate>
+      <link>http://www.npr.org/templates/story/story.php?storyId=101547355&amp;ft=2&amp;f=510221</link>
+      <guid>http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101570062/npr_101570062.mp3</guid>
+      <summary><![CDATA[Soft tissue like the brain is usually the first thing to go when an organism decomposes, but not always, according to a new discovery. Researchers working in Kansas dug up a fish skull containing an ancient fossilized brain. John Maisey of the American Museum of Natural History discusses the fossil.]]></summary>
+      <keywords>NPR,National Public Radio,Science Friday,Morning Edition,All Things Considered,Fresh Air</keywords>
+      <duration>12:08</duration>
+      <explicit>no</explicit>
+      <enclosure url="http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101570062/npr_101570062.mp3" length="5860709" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>Anthropologist Donald Johanson On 'Lucy's Legacy'</title>
+      <description><![CDATA[In 1974, at age 31, Donald Johanson discovered the fossil he dubbed "Lucy" &mdash; a previously unknown species of ancient hominid. Johanson talks about what the discovery meant for the human family tree and discusses his new book <em>Lucy's Legacy: The Quest for Human Origins</em>.]]></description>
+      <pubDate>Fri, 06 Mar 2009 18:04:48 -0500</pubDate>
+      <link>http://www.npr.org/templates/story/story.php?storyId=101547347&amp;ft=2&amp;f=510221</link>
+      <guid>http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101570058/npr_101570058.mp3</guid>
+      <summary><![CDATA[In 1974, at age 31, Donald Johanson discovered the fossil he dubbed "Lucy" &mdash; a previously unknown species of ancient hominid. Johanson talks about what the discovery meant for the human family tree and discusses his new book Lucy's Legacy: The Quest for Human Origins.]]></summary>
+      <keywords>NPR,National Public Radio,Science Friday,Morning Edition,All Things Considered,Fresh Air</keywords>
+      <duration>26:35</duration>
+      <explicit>no</explicit>
+      <enclosure url="http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101570058/npr_101570058.mp3" length="12789637" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>Archaeologists Unearth Earliest Known Horse Farm</title>
+      <description><![CDATA[Archaeologists reporting in the journal <em>Science</em> say they've found evidence that humans raised horses nearly 5,500 years ago in present day Kazakhstan. Alan Outram presents the evidence suggesting that the Botai culture kept horses for milking and possibly riding.]]></description>
+      <pubDate>Fri, 06 Mar 2009 18:04:46 -0500</pubDate>
+      <link>http://www.npr.org/templates/story/story.php?storyId=101547342&amp;ft=2&amp;f=510221</link>
+      <guid>http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101570037/npr_101570037.mp3</guid>
+      <summary><![CDATA[Archaeologists reporting in the journal Science say they've found evidence that humans raised horses nearly 5,500 years ago in present day Kazakhstan. Alan Outram presents the evidence suggesting that the Botai culture kept horses for milking and possibly riding.]]></summary>
+      <keywords>NPR,National Public Radio,Science Friday,Morning Edition,All Things Considered,Fresh Air</keywords>
+      <duration>9:22</duration>
+      <explicit>no</explicit>
+      <enclosure url="http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101570037/npr_101570037.mp3" length="4529509" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>For Robots In Sand, The Secret Is In The Step</title>
+      <description><![CDATA[Sand is difficult terrain for robots. But Daniel Goldman, a physicist at Georgia Institute of Technology, and his colleagues looked to lizards and cockroaches for inspiration, and figured out how to engineer a robot that isn't slowed by soft ground.]]></description>
+      <pubDate>Fri, 06 Mar 2009 18:04:42 -0500</pubDate>
+      <link>http://www.npr.org/templates/story/story.php?storyId=101547339&amp;ft=2&amp;f=510221</link>
+      <guid>http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101570034/npr_101570034.mp3</guid>
+      <summary><![CDATA[Sand is difficult terrain for robots. But Daniel Goldman, a physicist at Georgia Institute of Technology, and his colleagues looked to lizards and cockroaches for inspiration, and figured out how to engineer a robot that isn't slowed by soft ground.]]></summary>
+      <keywords>NPR,National Public Radio,Science Friday,Morning Edition,All Things Considered,Fresh Air</keywords>
+      <duration>5:03</duration>
+      <explicit>no</explicit>
+      <enclosure url="http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101570034/npr_101570034.mp3" length="2454342" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>Could Heating Caves Save The Bats?</title>
+      <description><![CDATA[Tens of thousands of bats have been dropping dead in the Northeast, all exhibiting symptoms of the poorly understood "white-nose syndrome." Ecologist Justin Boyles explains how installing heated boxes in caves could help hibernating bats with white-nose syndrome survive the winter.]]></description>
+      <pubDate>Fri, 06 Mar 2009 18:04:39 -0500</pubDate>
+      <link>http://www.npr.org/templates/story/story.php?storyId=101547336&amp;ft=2&amp;f=510221</link>
+      <guid>http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101570031/npr_101570031.mp3</guid>
+      <summary><![CDATA[Tens of thousands of bats have been dropping dead in the Northeast, all exhibiting symptoms of the poorly understood "white-nose syndrome." Ecologist Justin Boyles explains how installing heated boxes in caves could help hibernating bats with white-nose syndrome survive the winter.]]></summary>
+      <keywords>NPR,National Public Radio,Science Friday,Morning Edition,All Things Considered,Fresh Air</keywords>
+      <duration>12:47</duration>
+      <explicit>no</explicit>
+      <enclosure url="http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101570031/npr_101570031.mp3" length="6165611" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>Climate Scientists Enlist Citizen Volunteers</title>
+      <description><![CDATA[The National Phenology Network is recruiting people across the U.S. to record when trees bud, flowers bloom and migrating animals return. The project's executive director, Jake Weltzin, explains how tracking these trends can help scientists better understand climate change.]]></description>
+      <pubDate>Fri, 06 Mar 2009 18:04:35 -0500</pubDate>
+      <link>http://www.npr.org/templates/story/story.php?storyId=101547333&amp;ft=2&amp;f=510221</link>
+      <guid>http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101570028/npr_101570028.mp3</guid>
+      <summary><![CDATA[The National Phenology Network is recruiting people across the U.S. to record when trees bud, flowers bloom and migrating animals return. The project's executive director, Jake Weltzin, explains how tracking these trends can help scientists better understand climate change.]]></summary>
+      <keywords>NPR,National Public Radio,Science Friday,Morning Edition,All Things Considered,Fresh Air</keywords>
+      <duration>17:48</duration>
+      <explicit>no</explicit>
+      <enclosure url="http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101570028/npr_101570028.mp3" length="8575981" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>Scientists Engineer Viruses To Battle Bacteria</title>
+      <description><![CDATA[Viruses called bacteriophages make a living picking on certain bacteria. But these viruses have had limited use as antibiotics. Biomedical engineer Jim Collins explains how his team was able create a better bacteriophage, capable of attacking even antibiotic-resistant bugs.]]></description>
+      <pubDate>Fri, 06 Mar 2009 18:04:32 -0500</pubDate>
+      <link>http://www.npr.org/templates/story/story.php?storyId=101547330&amp;ft=2&amp;f=510221</link>
+      <guid>http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101570025/npr_101570025.mp3</guid>
+      <summary><![CDATA[Viruses called bacteriophages make a living picking on certain bacteria. But these viruses have had limited use as antibiotics. Biomedical engineer Jim Collins explains how his team was able create a better bacteriophage, capable of attacking even antibiotic-resistant bugs.]]></summary>
+      <keywords>NPR,National Public Radio,Science Friday,Morning Edition,All Things Considered,Fresh Air</keywords>
+      <duration>12:28</duration>
+      <explicit>no</explicit>
+      <enclosure url="http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101570025/npr_101570025.mp3" length="6019116" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>Scientists Take Step Toward Universal Flu Vaccine</title>
+      <description><![CDATA[Flu shots keep many people healthy, but can't fight all viral strains. Now scientists may be a step closer to creating a vaccine that fights all strains. Molecular biologist Ian Wilson explains how researchers are trying to trigger the body to fight more kinds of viruses.]]></description>
+      <pubDate>Fri, 27 Feb 2009 18:09:57 -0500</pubDate>
+      <link>http://www.npr.org/templates/story/story.php?storyId=101242477&amp;ft=2&amp;f=510221</link>
+      <guid>http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101283403/npr_101283403.mp3</guid>
+      <summary><![CDATA[Flu shots keep many people healthy, but can't fight all viral strains. Now scientists may be a step closer to creating a vaccine that fights all strains. Molecular biologist Ian Wilson explains how researchers are trying to trigger the body to fight more kinds of viruses.]]></summary>
+      <keywords>NPR,National Public Radio,Science Friday,Morning Edition,All Things Considered,Fresh Air</keywords>
+      <duration>12:32</duration>
+      <explicit>no</explicit>
+      <enclosure url="http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101283403/npr_101283403.mp3" length="6047119" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>Report Finds Forensic Evidence Lacking</title>
+      <description><![CDATA[A new report from the National Academy of Sciences says much of what's commonly called "forensic sciences" doesn't meet scientific standards. Experts say the country's forensics methods and systems &mdash; from fingerprint identification to bite-mark analysis &mdash; need an overhaul.]]></description>
+      <pubDate>Fri, 27 Feb 2009 18:09:52 -0500</pubDate>
+      <link>http://www.npr.org/templates/story/story.php?storyId=101242472&amp;ft=2&amp;f=510221</link>
+      <guid>http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101283398/npr_101283398.mp3</guid>
+      <summary><![CDATA[A new report from the National Academy of Sciences says much of what's commonly called "forensic sciences" doesn't meet scientific standards. Experts say the country's forensics methods and systems &mdash; from fingerprint identification to bite-mark analysis &mdash; need an overhaul.]]></summary>
+      <keywords>NPR,National Public Radio,Science Friday,Morning Edition,All Things Considered,Fresh Air</keywords>
+      <duration>28:11</duration>
+      <explicit>no</explicit>
+      <enclosure url="http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101283398/npr_101283398.mp3" length="13563906" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>Getting To The Root Of Why Hair Turns Gray</title>
+      <description><![CDATA[Gray hair is a common sign of aging, but just what causes locks to lose their color isn't well understood. Dr. Gerald Weissmann discusses new research suggesting that hydrogen peroxide build-up in hair follicles may bleach the color from the hair as it leaves the scalp.]]></description>
+      <pubDate>Fri, 27 Feb 2009 18:09:50 -0500</pubDate>
+      <link>http://www.npr.org/templates/story/story.php?storyId=101242469&amp;ft=2&amp;f=510221</link>
+      <guid>http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101283395/npr_101283395.mp3</guid>
+      <summary><![CDATA[Gray hair is a common sign of aging, but just what causes locks to lose their color isn't well understood. Dr. Gerald Weissmann discusses new research suggesting that hydrogen peroxide build-up in hair follicles may bleach the color from the hair as it leaves the scalp.]]></summary>
+      <keywords>NPR,National Public Radio,Science Friday,Morning Edition,All Things Considered,Fresh Air</keywords>
+      <duration>7:23</duration>
+      <explicit>no</explicit>
+      <enclosure url="http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101283395/npr_101283395.mp3" length="3573637" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>Are All Calories Created Equal?</title>
+      <description><![CDATA[Research reported this week in <em>The New England Journal of Medicine</em> finds that hundreds of study participants were able to drop similar amounts of weight by cutting calories, regardless of whether they followed diets heavy on fats, carbohydrates or proteins.  Author Dr. Frank Sacks explains the findings.]]></description>
+      <pubDate>Fri, 27 Feb 2009 18:09:47 -0500</pubDate>
+      <link>http://www.npr.org/templates/story/story.php?storyId=101242464&amp;ft=2&amp;f=510221</link>
+      <guid>http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101283392/npr_101283392.mp3</guid>
+      <summary><![CDATA[Research reported this week in The New England Journal of Medicine finds that hundreds of study participants were able to drop similar amounts of weight by cutting calories, regardless of whether they followed diets heavy on fats, carbohydrates or proteins.  Author Dr. Frank Sacks explains the findings.]]></summary>
+      <keywords>NPR,National Public Radio,Science Friday,Morning Edition,All Things Considered,Fresh Air</keywords>
+      <duration>17:49</duration>
+      <explicit>no</explicit>
+      <enclosure url="http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101283392/npr_101283392.mp3" length="8583922" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>Celebrating The International Year Of Astronomy</title>
+      <description><![CDATA[Galileo first peered through his astronomical telescope toward the heavens 400 years ago, spotting mountains on the moon and discovering the moons of Jupiter. Astrophysicist Mario Livio talks about the special events planned this year to commemorate Galileo's discoveries.]]></description>
+      <pubDate>Fri, 27 Feb 2009 18:09:43 -0500</pubDate>
+      <link>http://www.npr.org/templates/story/story.php?storyId=101242461&amp;ft=2&amp;f=510221</link>
+      <guid>http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101283389/npr_101283389.mp3</guid>
+      <summary><![CDATA[Galileo first peered through his astronomical telescope toward the heavens 400 years ago, spotting mountains on the moon and discovering the moons of Jupiter. Astrophysicist Mario Livio talks about the special events planned this year to commemorate Galileo's discoveries.]]></summary>
+      <keywords>NPR,National Public Radio,Science Friday,Morning Edition,All Things Considered,Fresh Air</keywords>
+      <duration>17:48</duration>
+      <explicit>no</explicit>
+      <enclosure url="http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101283389/npr_101283389.mp3" length="8574309" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>Huge Solar Facility Planned For California Desert</title>
+      <description><![CDATA[Utility company Southern California Edison and solar startup BrightSource Energy announced a deal to build a solar-thermal plant that would generate 1,300 megawatts of power, slightly more than a modern nuclear plant, in the Mojave Desert. BrightSource CEO John Woolard discusses the project.]]></description>
+      <pubDate>Fri, 27 Feb 2009 18:09:40 -0500</pubDate>
+      <link>http://www.npr.org/templates/story/story.php?storyId=101242458&amp;ft=2&amp;f=510221</link>
+      <guid>http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101283386/npr_101283386.mp3</guid>
+      <summary><![CDATA[Utility company Southern California Edison and solar startup BrightSource Energy announced a deal to build a solar-thermal plant that would generate 1,300 megawatts of power, slightly more than a modern nuclear plant, in the Mojave Desert. BrightSource CEO John Woolard discusses the project.]]></summary>
+      <keywords>NPR,National Public Radio,Science Friday,Morning Edition,All Things Considered,Fresh Air</keywords>
+      <duration>12:28</duration>
+      <explicit>no</explicit>
+      <enclosure url="http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510221/101283386/npr_101283386.mp3" length="6014309" type="audio/mpeg"/>
+    </item>
+  </channel>
+</rss>
+
+<!-- Burned 03/13/2009 18:04:00.257-->
+

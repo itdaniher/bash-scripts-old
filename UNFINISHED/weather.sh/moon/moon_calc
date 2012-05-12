@@ -1,0 +1,48 @@
+But what if I can't find my moonstick and I can't remember these silly
+algorithms and I having a moon phase information emergency!
+
+First of all, try to stay calm.  Now count the number of days (whole days and
+fractions thereof) since 2001 January 1, 0h UT.  Next, calmly multiply this
+number by 850.  Then, add to this number 5130.  Finally, divide this number by
+25101.  The number you have now is the number of lunations (whole lunations and
+fractions thereof) that have elapsed since some new moon way back when (in
+December 2000).  What is so nice about this algorithm is that it only requires
+you to remember three number (850, 5130, and 25101).  Additionally, this
+algorithm is accurate beyond belief.  Its initial synchronization with the
+lunar month is off by .5769 parts in 25101.  To eliminate this error, just
+change 5130 to 5130.5769.  Additionally, the length of the lunar month is
+matched perfectly to the accuracy of human knowledge.  The only expected long
+term drifting will result from the slowing of the Earth's rotation.
+
+Now for an example.  Lets pretend I am having a moon phase emergency.  Lets
+say, one afternoon, I get lost in the woods around Bristol, Florida, USA and I
+desperately want to know if the moon will be up before sunset.  Pretend the
+date is March 28, 2002.  First I would count the days since 2001 January 1, 0h
+UT.  I would add 365 (to get from 2001 to 2002) and 31 (for January) and 28 
+(for February) and 27 (to get from March 1 to March 28) and .75 (to get from
+midnight to about sunset) and 85/360 (for my longitude from UT (which I think I
+would round off to .25)).  I would get a total of 452.00 (after rounding as
+before mentioned).  Now multiply by 850, add 5130, and divide by 25101.  I
+would now have 15.510... .  The meaningful part is the .510... which tells me
+that the moon is past full (.500) and should not rise until after sunset.  Oh
+woe is me.  I will be caught in the dark.  The excess (.010...) can be
+multiplied by 24 to show that the moon will rise about .24 hours after sunset
+or about 14 minutes.  That's not so bad.  The twilight won't even have wore off
+before the moon gets up.  So it looks like everything will be okay.  Wow, that
+was close.  (Don't forget that because the moon and Earth have elliptical
+orbits, this time can be expected to be off by up to 30 or so minutes.  Other
+factors can throw things off too, most notably, extreme latitudes.  But luckily
+in this example, latitude is not very high and 14 plus 30 is still within
+Florida's twilight zone.)
+
+MOON PHASE EMERGENCY:  RESOLVED
+
+And your story can have a happy ending too if you can only remember three
+numbers, ...
+850, 5130, and 25101.
+
+This page is part of the Moonstick Information Site.
+copyright © 2001 Sean Barton, all rights reserved
+
+Valid HTML 4.0
+

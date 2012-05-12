@@ -1,0 +1,6 @@
+source ~/.config/suckless/settings
+while [ True ] 
+do echo $(mpc | head -n1) $(mpc | head -n2 | tail -n1 | awk '{print $4}' | cut -b2-3 | gdbar)
+sleep 1
+done | dzen2 -w 500 -x 300 -fn $fn
+                         

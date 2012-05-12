@@ -1,0 +1,19 @@
+#! /bin/bash
+cd /usr/local/src
+for a in *
+do cd $a
+	if [ -f configure ]
+	then
+		if [ -f *akefile ]
+		then
+			echo "You already have a makefile for $a!"
+		else
+			./configure
+		fi
+	fi
+	make install > /dev/null
+	echo installing $a
+	cd /usr/local/src
+done
+cd
+#See LICENSE file for copyright and license details

@@ -1,0 +1,4 @@
+s=$*
+w3m-debian http://www.google.com/search?q=${s// /+}
+#&btnI = I'm feeling Lucky
+#See LICENSE file for copyright and license details

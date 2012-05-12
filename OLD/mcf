@@ -1,0 +1,194 @@
+#! /bin/bash
+# mclastfm - part of the mpc controller series
+# based on a fix by ghacks.net (http://www.ghacks.net/2007/09/22/play-lastfm-radio-streams-in-your-music-player/)
+# Copyright 2008 (c)
+#  Maintainer:         chochem:     Mads Michelsen <chochem@gmail.com>
+#  Santas li'l helper: pianosaurus: Ole Christian Tvedt <olechrt@stud.ntnu.no>
+
+VERSION="0.3"
+
+# New in 0.3
+# + play specific lastfm:// address
+# + calculate md5sum in configuration
+# + a few bugfixes
+#
+# New in 0.2
+# + separate configuration file
+# + group tag
+# + popular tags menu
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+
+###############################################################################
+# echo help and usage information.
+###############################################################################
+printhelp () {
+  U1="$(tput smul)"
+  U0="$(tput rmul)"
+  echo "$(basename "$0") $VERSION gives you easy MPD access to last.fm radio stations.
+Run '$(basename "$0") --setup' to generate a configuration file before use.
+
+Syntax:
+  $(basename "$0") ${U1}<search key>${U0} ${U1}<search term(s)>${U0}
+
+Search keys can be
+  ${U1}a${U0} for artist (e.g. 'new york dolls')
+  ${U1}f${U0} for last.fm's global tags, only one accepted (e.g. 'funky')
+  ${U1}l${U0} to pick a tag from a list of poular tags (does not require search terms)
+  ${U1}r${U0} for a group's radio station (e.g 'mpd')
+  ${U1}u${U0} for user's radio station (e.g. 'musiclover8462')
+  ${U1}n${U0} for user's neighbourhood radio station (e.g. 'musiclover8462')
+  ${U1}s${U0} for a specific last.fm address (e.g. 'lastfm://play/tracks/10413')
+
+Last.fm is fairly strict with redirects but you should be able to get away with omitting initial 'the's and not capitalizing any letters. All search terms except user name and lasf.fm address can consist of multiple words. Sadly there does not seem to be a way to combine multiple tags." 1>&2
+}
+
+###############################################################################
+# Create a configuration file containing the user's last.fm username and
+# password hash. Delete the old file if it exists.
+###############################################################################
+setupConfFile () {
+  echo "Configuring $(basename "$0"). This will produce a configuration file (.mcf) in your home directory.
+" 1>&2
+
+  USERNAME=""
+  PASSWORD=""
+  MDFIVE=""
+
+  while [ -z "${USERNAME}" ]; do
+    read -ep "What is your last.fm username? " USERNAME
+  done
+
+  if which md5sum &> /dev/null; then
+    while [ -z "${PASSWORD}" ]; do
+      read -sp "What is your last.fm password? " PASSWORD
+    done
+    echo
+    MDFIVE=$(echo -n ${PASSWORD} | md5sum | cut -f1 -d' ')
+  else
+    echo "You don't have md5sum in your path. Either install it or use http://md5.rednoize.com/ or a similar site." 1>&2
+    while [ -z "${MDFIVE}" ]; do
+      read -ep "What is the md5 hash of your last.fm password? " MDFIVE
+    done
+  fi
+
+  echo "USERNAME=${USERNAME}" > ~/.mcf
+  echo "MDFIVE=${MDFIVE}" >> ~/.mcf
+}
+
+###############################################################################
+# Exit with an error message and status 1.
+###############################################################################
+quitter () {
+  echo "Connection unsuccessful. Please check your network and your configuration file." 1>&2
+  exit 1
+}
+
+###############################################################################
+# Download a list of popular tags and ask the user what to listen to.
+###############################################################################
+poptag () {
+  COLUMNS="$(tput cols)"
+  echo "Fetching tags from http://www.last.fm/music/+tags/..."
+  TAGS="$(wget -q -O - http://www.last.fm/music/+tags/ | sed -ne 's|^.*"/tag/\([^"]*\).*$|\1|p')"
+  ORIGINAL_IFS=$IFS
+  IFS=$'\n'
+  select TAG in $TAGS; do
+    SEARCHTERMS="$(echo "$TAG" | tr ' ' '+')"
+    break
+  done
+  IFS=$ORIGINAL_IFS
+}
+
+###############################################################################
+# Decode last.fm urls to SEARCH and SEARCHTERMS format.
+# Urls do not need to be prefixed with lastfm://
+###############################################################################
+decodeUrl () {
+  # Decompose to lastfm://SEARCH/SEARCHTERMS
+  SEARCH="$(echo "$SEARCHTERMS" | sed -ne 's|^\(lastfm\)\?:\?/*\([^/]*\).*$|\2|p')"
+  SEARCHTERMS="$(echo "$SEARCHTERMS" | sed -ne "s|^\(lastfm\)\?:\?/*${SEARCH}/*\(.*\)$|\2|p")"
+
+  # Make sure none of them are zero length by now.
+  if [ -z "$SEARCH" ] || [ -z "$SEARCHTERMS" ]; then
+    echo "Invalid last.fm address!" 1>&2
+    exit 1
+  fi
+}
+
+###############################################################################
+# Non-function code begins here.
+###############################################################################
+
+# Help the clueless
+if [ -z "$*" -o "$*" = "-h" -o "$*" = "--help" ]; then 
+  printhelp
+  exit
+elif [ "$*" = "--setup" ]; then
+  setupConfFile
+  exit
+elif [ "$*" = "-v" -o "$*" = "--version" ]; then
+  echo "$(basename "$0") $VERSION"
+  exit
+fi
+
+# Check for configuration file
+if [ -f ~/.mcf ]; then
+  source ~/.mcf
+else
+  setupConfFile
+fi
+
+# Get search terms
+SEARCHKEY="$1"
+shift
+SEARCHTERMS="$(echo "$*" | tr ' ' '+')"
+case "$SEARCHKEY" in
+  a) SEARCH="artist";     SEARCH2="";;
+  f) SEARCH="globaltags"; SEARCH2="";;
+  l) SEARCH="globaltags"; SEARCH2="";poptag;;
+  r) SEARCH="group";      SEARCH2="";;
+  u) SEARCH="user";       SEARCH2="/personal";;
+  n) SEARCH="user";       SEARCH2="/neighbours";;
+  s) decodeUrl;;
+  *) U1="$(tput smul)"; U0="$(tput rmul)"; echo "'$SEARCHKEY' is not a valid keyword - only ${U1}a${U0}, ${U1}f${U0}, ${U1}l${U0}, ${U1}n${U0}, ${U1}r${U0} and ${U1}u${U0} are acceptable.
+Please see $(basename \"$0\") --help for reference and try again." 1>&2 && exit 1;;
+esac
+
+# getting sessioninfo from last.fm
+BROWSERID="Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.13) Gecko/20080325 Ubuntu/7.10 (gutsy) Firefox/2.0.0.13"
+LASTURL="http://ws.audioscrobbler.com/radio/handshake.php?version=1.1.1&platform=linux&username=${USERNAME}&passwordmd5=${MDFIVE}&debug=0&partner="
+echo "Setting up a session with last.fm..."
+HANDSHAKE="$(wget -q -t 1 -T 15 -U "$BROWSERID" "$LASTURL" -O - || quitter)"
+STREAMURL="$(echo "$HANDSHAKE" | grep ^stream_url | cut -d = -f 2-)"
+SESSION="$(echo "$HANDSHAKE" | grep ^session | cut -d = -f 2)"
+
+# sending request to last.fm
+REQURL="http://ws.audioscrobbler.com/radio/adjust.php?session=${SESSION}&url=lastfm://${SEARCH}/${SEARCHTERMS}${SEARCH2}&debug=0"
+echo "Requesting stream from last.fm..."
+REQUEST="$(wget -q -t 1 -T 15 -U "$BROWSERID" "$REQURL" -O - || quitter)"
+
+# evaluate last.fm reply & fire up mpc
+if echo "$REQUEST" | grep "response=OK" &> /dev/null; then
+  STATION="$(echo "$REQUEST" | grep '^stationname' | cut -d = -f 2- | tr -d ’)"
+  echo "Station found: $STATION"
+  mpc clear
+  echo "$STREAMURL" | mpc add &> /dev/null
+  mpc play &> /dev/null
+  #mplayer $STREAMURL
+else 
+  echo "No joy. Please check your search terms." 1>&2
+fi

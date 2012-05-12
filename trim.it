@@ -1,0 +1,4 @@
+SubjectURL="$1"
+TargetURL=$(launcher dmenu -p "TargetURL:")
+NewURL=$(curl -s "http://api.tr.im/api/trim_simple?custom=$TargetURL&url=$SubjectURL")
+echo $NewURL

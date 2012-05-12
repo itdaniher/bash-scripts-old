@@ -1,0 +1,12 @@
+#SIMPLE-STOPWATCH
+#V0.1
+#!/bin/bash
+
+BEGIN=$(date +%s.%N | cut -c 1-14)
+
+while [ True ]
+do
+	NOW=$(date +%s.%N | cut -c 1-14)
+	DIFF=$(echo $NOW - $BEGIN | bc)
+	echo -ne "$DIFF\r"
+done

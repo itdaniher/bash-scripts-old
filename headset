@@ -1,0 +1,70 @@
+
+#!/bin/bash
+
+if [ $1 ]; then
+ACTION=$1
+else
+ACTION="off"
+fi
+
+MAC="00:11:22:33:44:55" # your bluetooth device's mac
+
+if [ "$ACTION" == "music" ]; then
+
+echo Connect bluetooth headset in stereo mode
+
+# active service
+TMP=`dbus-send --system --print-reply --dest=org.bluez /org/bluez org.bluez.Manager.ActivateService string:audio`
+DEST=`expr match "$TMP" '.*\(\".*\"\)'`
+DEST=${DEST#\"}
+DEST=${DEST%\"}
+
+# create device
+TMP=`dbus-send --system --type=method_call --print-reply --dest=$DEST /org/bluez/audio org.bluez.audio.Manager.CreateDevice string:$MAC`
+DEV_PATH=`expr match "$TMP" '.*\(\".*\"\)'`
+DEV_PATH=${DEV_PATH#\"}
+DEV_PATH=${DEV_PATH%\"}
+
+# connect
+dbus-send --system --type=method_call --print-reply --dest=$DEST $DEV_PATH org.bluez.audio.Sink.Connect
+
+# for gstreamer
+gconftool-2 --type string --set /system/gstreamer/0.10/default/musicaudiosink "alsasink device=bluetooth"
+
+echo done.
+
+elif [ "$ACTION" == "voice" ]; then
+
+echo Connect bluetooth headset in voice mode
+
+# active service
+TMP=`dbus-send --system --print-reply --dest=org.bluez /org/bluez org.bluez.Manager.ActivateService string:audio`
+DEST=`expr match "$TMP" '.*\(\".*\"\)'`
+DEST=${DEST#\"}
+DEST=${DEST%\"}
+
+# create device
+TMP=`dbus-send --system --type=method_call --print-reply --dest=$DEST /org/bluez/audio org.bluez.audio.Manager.CreateHeadset string:$MAC`
+DEV_PATH=`expr match "$TMP" '.*\(\".*\"\)'`
+DEV_PATH=${DEV_PATH#\"}
+DEV_PATH=${DEV_PATH%\"}
+
+# connect
+dbus-send --system --type=method_call --print-reply --dest=$DEST $DEV_PATH org.bluez.audio.Headset.Connect
+
+# play
+dbus-send --system --type=method_call --print-reply --dest=$DEST $DEV_PATH org.bluez.audio.Headset.Play
+
+echo done.
+
+elif [ "$ACTION" == "off" ]; then
+
+echo Turn bluetooth headset off
+gconftool-2 --type string --set /system/gstreamer/0.10/default/musicaudiosink "autoaudiosink"
+
+else
+
+echo Usage: $0 music/voice/off
+echo default action is off
+
+fi

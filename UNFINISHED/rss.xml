@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+<channel>
+<title>xkcd.com</title>
+<link>http://xkcd.com/</link>
+<description>xkcd.com: A webcomic of romance and math humor.</description>
+<language>en</language>
+<item>
+<title>Parking</title>
+<link>http://xkcd.com/562/</link>
+<description>
+<img src="http://imgs.xkcd.com/comics/parking.png" title="Police reported three dozen cheerful bystanders, yet no one claims to have seen who did it." alt="Police reported three dozen cheerful bystanders, yet no one claims to have seen who did it." />
+</description>
+<pubDate>Mon, 30 Mar 2009 04:00:00 -0000</pubDate>
+<guid>http://xkcd.com/562/</guid>
+</item>
+<item>
+<title>Well</title>
+<link>http://xkcd.com/561/</link>
+<description>
+<img src="http://imgs.xkcd.com/comics/well.png" title="I'll concede ergonomics anecdotally, but none of the studies of Dvorak were at all rigorous (the most-cited Navy study was overseen by Dvorak himself).  And the 'slow typists down' thing is a myth.  Also EMACS RULES VI DROOLS WOOOOOOO!" alt="I'll concede ergonomics anecdotally, but none of the studies of Dvorak were at all rigorous (the most-cited Navy study was overseen by Dvorak himself).  And the 'slow typists down' thing is a myth.  Also EMACS RULES VI DROOLS WOOOOOOO!" />
+</description>
+<pubDate>Fri, 27 Mar 2009 04:00:00 -0000</pubDate>
+<guid>http://xkcd.com/561/</guid>
+</item>
+<item>
+<title>Lithium Batteries</title>
+<link>http://xkcd.com/560/</link>
+<description>
+<img src="http://imgs.xkcd.com/comics/lithium_batteries.png" title="I'm normally a pretty frugal person, but I still compulsively buy any R/C aircraft that's less than $30.  In the last few years, this has become a problem." alt="I'm normally a pretty frugal person, but I still compulsively buy any R/C aircraft that's less than $30.  In the last few years, this has become a problem." />
+</description>
+<pubDate>Wed, 25 Mar 2009 04:00:00 -0000</pubDate>
+<guid>http://xkcd.com/560/</guid>
+</item>
+<item>
+<title>No Pun Intended</title>
+<link>http://xkcd.com/559/</link>
+<description>
+<img src="http://imgs.xkcd.com/comics/no_pun_intended.png" title="Like spelling 'dammit' correctly -- with two m's -- it's a troll that works best on the most literate." alt="Like spelling 'dammit' correctly -- with two m's -- it's a troll that works best on the most literate." />
+</description>
+<pubDate>Mon, 23 Mar 2009 04:00:00 -0000</pubDate>
+<guid>http://xkcd.com/559/</guid>
+</item>
+</channel>
+</rss>

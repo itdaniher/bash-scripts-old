@@ -1,0 +1,47 @@
+#<SETUP >
+BLFILE=/sys/class/backlight/dcon-bl/brightness
+PWFILE=/sys/class/power_supply/olpc-ac/online
+SRFILE=/sys/devices/platform/dcon/sleep
+sudo chmod 666 $BLFILE $SRFILE $PWFILE
+#<SETUP />
+case $1 in
+	b)	sudo echo $2 > $BLFILE;;
+#sets backlight to a value from 0-15
+	r)	xrandr -o $2;;
+#rotates screen, accepts second parameter giving screen rotation of $2*90
+	s)	echo $[!$(cat $SRFILE)] > $SRFILE;;
+#turns screen on or off, binarily
+	pulse)	
+		xoset b 0
+		while [ $(cat $BLFILE) -lt 15 ]
+		do
+			xoset u
+		done
+		while [ $(cat $BLFILE)  -gt 0 ]
+		do
+			xoset d
+		done;;
+#pulses the screen once
+	permipulse)
+		while true
+		do
+			pulse
+		done;;
+#pulses the screen till script killed
+	d)	xoset b $((`cat $BLFILE`-1));;
+#backlight down one
+	u)	xoset b $((`cat $BLFILE`+1));;
+#backlight up one
+	q)	cat $BLFILE;;
+	p)	cat $PWFILE;;
+	*) 
+		echo "usage:
+	xoset <choice> <args>
+b		sets the backlight to a value from 0-15
+s		turns screen on or off binarily (no arg)
+pulse		sets backlight to zero, increases to fifteen, decreases to zero
+permipulse	runs pulse until script is killed
+u		increases backlight
+d		decreases backlight"
+#See LICENSE file for copyright and license details
+esac

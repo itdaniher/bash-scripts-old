@@ -1,0 +1,12 @@
+i=1
+while [ $i -lt 595 ]
+do
+line=$(line2 $i /tmp/xkcd.list | sed -e 's/<img //g' -e 's/ \/>//g' -e 's/src="/%%/g' -e 's/title="/%%/g' -e 's/alt="/%%/g' -e 's/"//g')
+IMG=$(echo $line | awk -F"%%" '{print $2}')
+TTL=$(echo $line | awk -F"%%" '{print $3}')
+ALT=$(echo $line | awk -F"%%" '{print $4}')
+echo -e "$i\t$TTL\t$ALT\t$IMG" >> xkcd_index
+echo -e "$i\t$TTL\t$ALT\t$IMG"
+wget $IMG
+i=$(($i+1))
+done

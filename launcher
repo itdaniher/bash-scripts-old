@@ -1,0 +1,11 @@
+#!/bin/bash
+file=~/.config/suckless/settings
+source $file
+case $1 in 
+	dwm)	dwm -fn $fn -nd $nd -sd $sd -nf $nf -sf $sf -nb $nb -sb $sb;;
+	dmenu)	dmenu -fn $fn -nf $nf -sf $sf -nb $nb -sb $sb -b ${@:2};;
+	dzen2)	dzen2 -fn $fn -bg $nf -fg $sf ${@:2};;
+	uxterm)	uxterm -fn $fn -bg $nf -fg $sf;;
+	wifi)	wifi -fn $fn -nf $nf -sf $sf -nb $nb -sb $sb -b;;
+	torsmo) torsmo -db -f $fn;;
+esac 

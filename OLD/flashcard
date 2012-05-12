@@ -1,0 +1,8 @@
+FILE=$1
+LINS=$(wc -l < "$FILE")
+QSTN=$(expr $(expr $RANDOM % $LINS) + 1)
+ANS=$(cat $FILE | sed -n "$QSTN"p| awk -F"," '{print $2'})
+QUS=$(cat $FILE | sed -n "$QSTN"p| awk -F"," '{print $3'})
+read -p "$QUS :" UAN
+echo UAN:$UAN
+echo $ANS : $UAN : $QUS

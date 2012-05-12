@@ -1,0 +1,2 @@
+http://tinyurl.com/api-create.php?url=http%3A%2F%2Fwww.google.com%2F
+The URL must be urlencoded. You can also use the POST method. The API will return a TinyURL in the body, or "ERROR", so check to make sure the TinyURL is valid within your application.

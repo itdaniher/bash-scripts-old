@@ -1,0 +1,19 @@
+#1) Install the software 
+sudo apt-get -y install sshfs 
+#a2) Add fuse to /etc/modules 
+sudo su -c 'echo "fuse" >> /etc/modules' 
+#3) Add yourself to the 'fuse' group, then log out and log in again. 
+a=$(whoami)
+sudo adduser $a fuse
+sudo adduser root fuse 
+#3.1) More config is needed for optimal awesomeness.
+sudo chmod +x /usr/bin/fusermount
+sudo chmod 555 /dev/fuse
+#4) Create a mountpoint and give yourself ownership 
+#sudo mkdir /media/mount-name 
+#sudo chown $a /media/mount-name 
+#5) Mount the filesystem 
+#sshfs remote-system-name:/remote-folder /media/mount-name 
+#6) Unmount the filesystem 
+#fusermount -u /media/mount-name
+#See LICENSE file for copyright and license details

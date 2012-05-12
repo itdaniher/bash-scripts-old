@@ -1,0 +1,1 @@
+curl -s http://www.npr.org/rss/podcast.php?id=510221 | sed -e "s/itunes://g" > foo.xml

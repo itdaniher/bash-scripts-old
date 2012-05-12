@@ -1,0 +1,19 @@
+if [ $1 == --install ]
+then
+	rpm --import http://rpm.livna.org/RPM-LIVNA-GPG-KEY
+	rpm -i http://rpm.livna.org/livna-release-9.rpm
+	yum update
+	yum -i install mplayer
+	wget www.arrakis.es/~rggi3/youtube-dl/youtube-dl
+	chmod +x youtube-dl
+elif [ $1 == --grab ]
+then
+	youtube-dl -b http://www.youtube.com/watch?v=$2
+	mplayer -fs *$2*.flv
+else
+echo '
+acceptable arguments are:
+--all-install	installs the video downloader and mplayer
+--grab (ID)	downloads the video to the current directory
+'
+fi#See LICENSE file for copyright and license details

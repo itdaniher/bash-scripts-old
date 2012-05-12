@@ -1,0 +1,4 @@
+echo $1 > tmp_fle
+chmod +x tmp_fle
+./tmp_fle&
+rm tmp_fle

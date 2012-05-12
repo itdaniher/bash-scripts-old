@@ -1,0 +1,16 @@
+for x in "$*"; do
+	[[ -f $x ]] || continue
+case "$x" in
+	*.tar.gz | *.tgz ) tar xvzf "$x";;
+	*.tar.bz2 | *.tbz2 )  tar xvjf "$x";;
+	*.bz2 ) "bunzip2" "$x";;
+	*.rar ) unrar x "$x" ;;
+	*.gz ) gunzip "$x";;
+	*.tar ) tar xvf "$x" ;;
+	*.zip ) unzip "$x" ;;
+	*.Z ) uncompress "$x" ;;
+	*.7z ) 7z x "$x";;
+	*.deb ) ar p $x data.tar.gz | tar xvzf -;;
+esac
+done
+#See LICENSE file for copyright and license details
